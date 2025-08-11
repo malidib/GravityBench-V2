@@ -56,58 +56,149 @@
         ]
     },
     "avg_distance_COM_star2": {
-        "variations": []
+        "variations": [
+            "21.3 M, 3.1 M",
+            "9.6 M, 3.1 M",
+            "0.18 M, 0.63 M"
+        ]
     },
     "eccentricity": {
-        "variations": []
+        "variations": [
+            "21.3 M, 3.1 M",
+            "9.6 M, 3.1 M",
+            "0.18 M, 0.63 M",
+            "9.6 M, 3.1 M, Proper Motion",
+            "9.6 M, 3.1 M, Proper Motion2",
+            "3.1 M, 0.18 M Elliptical"
+        ]
     },
     "kepler_3rd_law": {
-        "variations": []
+        "variations": [
+            "21.3 M, 3.1 M",
+            "9.6 M, 3.1 M",
+            "0.18 M, 0.63 M",
+            "10.1M, 5.6 M, Modified Gravity 1.97",
+            "10.1M, 5.6 M, Modified Gravity 2.03",
+            "10.1M, 5.6 M, Modified Gravity 1.97 Proper Motion"
+        ]
     },
     "mass_largest_star": {
-        "variations": []
+        "variations": [
+            "21.3 M, 3.1 M",
+            "9.6 M, 3.1 M",
+            "0.18 M, 0.63 M"
+        ]
     },
     "max_acceleration_star1": {
-        "variations": []
+        "variations": [
+            "21.3 M, 3.1 M",
+            "9.6 M, 3.1 M",
+            "0.18 M, 0.63 M",
+            "9.6 M, 3.1 M, Proper Motion",
+            "9.6 M, 3.1 M, Proper Motion2"
+        ]
     },
     "max_acceleration_star2": {
-        "variations": []
+        "variations": [
+            "21.3 M, 3.1 M",
+            "9.6 M, 3.1 M",
+            "0.18 M, 0.63 M"
+        ]
     },
     "max_angular_velocity_star1": {
-        "variations": []
+        "variations": [
+            "21.3 M, 3.1 M",
+            "9.6 M, 3.1 M",
+            "0.18 M, 0.63 M",
+            "9.6 M, 3.1 M, Proper Motion",
+            "9.6 M, 3.1 M, Proper Motion2"
+        ]
     },
     "max_angular_velocity_star2": {
-        "variations": []
+        "variations": [
+            "21.3 M, 3.1 M",
+            "9.6 M, 3.1 M",
+            "0.18 M, 0.63 M"
+        ]
     },
     "max_momentum_star1": {
-        "variations": []
+        "variations": [
+            "21.3 M, 3.1 M",
+            "9.6 M, 3.1 M",
+            "0.18 M, 0.63 M",
+            "9.6 M, 3.1 M, Proper Motion",
+            "9.6 M, 3.1 M, Proper Motion2"
+        ]
     },
     "max_momentum_star2": {
-        "variations": []
+        "variations": [
+            "21.3 M, 3.1 M",
+            "9.6 M, 3.1 M",
+            "0.18 M, 0.63 M"
+        ]
     },
     "max_velocity_star1": {
-        "variations": []
+        "variations": [
+            "21.3 M, 3.1 M",
+            "9.6 M, 3.1 M",
+            "0.18 M, 0.63 M",
+            "9.6 M, 3.1 M, Proper Motion",
+            "9.6 M, 3.1 M, Proper Motion2",
+            "9.6 M, 3.1 M, yrAUMsun",
+            "9.6 M, 3.1 M, cgs"
+        ]
     },
     "max_velocity_star2": {
-        "variations": []
+        "variations": [
+            "21.3 M, 3.1 M",
+            "9.6 M, 3.1 M",
+            "0.18 M, 0.63 M"
+        ]
     },
     "min_acceleration_star1": {
-        "variations": []
+        "variations": [
+            "21.3 M, 3.1 M",
+            "9.6 M, 3.1 M",
+            "0.18 M, 0.63 M"
+        ]
     },
     "min_acceleration_star2": {
-        "variations": []
+        "variations": [
+            "21.3 M, 3.1 M",
+            "9.6 M, 3.1 M",
+            "0.18 M, 0.63 M"
+        ]
     },
     "min_angular_velocity_star1": {
-        "variations": []
+        "variations": [
+            "21.3 M, 3.1 M",
+            "9.6 M, 3.1 M",
+            "0.18 M, 0.63 M"
+        ]
     },
     "min_angular_velocity_star2": {
-        "variations": []
+        "variations": [
+            "21.3 M, 3.1 M",
+            "9.6 M, 3.1 M",
+            "0.18 M, 0.63 M"
+        ]
     },
     "min_momentum_star1": {
-        "variations": []
+        "variations": [
+            "21.3 M, 3.1 M",
+            "9.6 M, 3.1 M",
+            "0.18 M, 0.63 M",
+            "9.6 M, 3.1 M, Proper Motion",
+            "9.6 M, 3.1 M, Proper Motion2",
+            "9.6 M, 3.1 M, yrAUMsun",
+            "9.6 M, 3.1 M, cgs"
+        ]
     },
     "min_momentum_star2": {
-        "variations": []
+        "variations": [
+            "21.3 M, 3.1 M",
+            "9.6 M, 3.1 M"
+        ]
     },
     "min_velocity_star1": {
         "variations": []

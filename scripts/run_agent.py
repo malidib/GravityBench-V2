@@ -450,17 +450,23 @@ def main(row_wise, simulate_all=False, scenario_filenames=None, max_observations
             pool = multiprocessing.Pool()
             try:
                 for result in tqdm.tqdm(pool.imap_unordered(run_agent_on_scenario_star, tasks), total=len(tasks)):
-                    result_queue.put(result)
+                    try:
+                        result_queue.put(result)
+                    
+                    except Exception as e:
+                        continue
 
-                    scenario_name = result['scenario_name']
-                    variation_name = result['variation_name']
+                    else:
+                        scenario_name = result['scenario_name']
+                        variation_name = result['variation_name']
 
-                    # Append ran variations onto a clean configuration for tracking
-                    clean_config[scenario_name]['variations'].append(variation_name)
+                        # Append ran variations onto a clean configuration for tracking
+                        clean_config[scenario_name]['variations'].append(variation_name)
+                    
+                        # Write updated data to the json file
+                        with open(new_json_path, 'w') as f:
+                            json.dump(clean_config, f, indent=4)
 
-                    # Write updated data to the json file
-                    with open(new_json_path, 'w') as f:
-                        json.dump(clean_config, f, indent=4)
 
             finally:
                 pool.close()
@@ -487,13 +493,18 @@ def main(row_wise, simulate_all=False, scenario_filenames=None, max_observations
     else:
         for scenario_name in tqdm.tqdm(scenarios_to_run):
             for variation_name in scenarios_to_run[scenario_name]['variations']:
-                scenario_module = get_scenario(scenario_name=scenario_name, variation_name=variation_name, row_wise=row_wise, max_observations_total=max_observations_total, max_observations_per_request=max_observations_per_request, scenario_folder='scenarios')
-                run_results = run_agent_on_scenario(row_wise, scenario_module, scenario_name, variation_name, model, 
-                                                    max_observations_total, MAX_TIME_PER_TASK, max_observations_per_request, req_successful_attempts_per_q, reasoning_effort)
-                all_results.extend(run_results)
-                
-                # Append ran scenarios onto the ran variations, also as a way to keep track of what scenarios was ran
-                clean_config[scenario_name]['variations'].append(variation_name)
+                try:
+                    scenario_module = get_scenario(scenario_name=scenario_name, variation_name=variation_name, row_wise=row_wise, max_observations_total=max_observations_total, max_observations_per_request=max_observations_per_request, scenario_folder='scenarios')
+                    run_results = run_agent_on_scenario(row_wise, scenario_module, scenario_name, variation_name, model, 
+                                                        max_observations_total, MAX_TIME_PER_TASK, max_observations_per_request, req_successful_attempts_per_q, reasoning_effort)
+                    all_results.extend(run_results)
+
+                except Exception as e:  # catches all non-fatal exceptions
+                    continue
+                    
+                else:
+                    # Append ran scenarios onto the ran variations, also as a way to keep track of what scenarios was ran
+                    clean_config[scenario_name]['variations'].append(variation_name)
 
             save_run_output(all_results, output_dir)
 
