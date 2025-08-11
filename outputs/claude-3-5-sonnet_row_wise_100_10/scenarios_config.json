@@ -1,0 +1,417 @@
+{
+    "roche_lobe_radius": {
+        "variations": [
+            "3.1 M, 0.18 M Elliptical"
+        ]
+    },
+    "modified_gravity_power_law": {
+        "variations": [
+            "10.1M, 5.6 M, Modified Gravity 1.97",
+            "10.1M, 5.6 M, Modified Gravity 2.03",
+            "10.1M, 5.6 M, Modified Gravity 1.97 Proper Motion"
+        ]
+    },
+    "linear_drag": {
+        "variations": [
+            "7.7 M, 4.9 M, Drag tau = 1.7e9",
+            "7.7 M, 4.9 M, Drag tau = 8.3e8",
+            "7.7 M, 4.9 M, Drag tau = 8.3e8 Proper Motion"
+        ]
+    },
+    "time_fraction_acceleraton_below_mean": {
+        "variations": [
+            "21.3 M, 3.1 M",
+            "9.6 M, 3.1 M",
+            "0.18 M, 0.63 M"
+        ]
+    },
+    "apoastron": {
+        "variations": [
+            "21.3 M, 3.1 M",
+            "9.6 M, 3.1 M",
+            "0.18 M, 0.63 M",
+            "9.6 M, 3.1 M, Proper Motion",
+            "9.6 M, 3.1 M, Proper Motion2"
+        ]
+    },
+    "area_swept_over_time_apo": {
+        "variations": [
+            "21.3 M, 3.1 M",
+            "9.6 M, 3.1 M",
+            "0.18 M, 0.63 M"
+        ]
+    },
+    "area_swept_over_time_peri": {
+        "variations": [
+            "21.3 M, 3.1 M",
+            "9.6 M, 3.1 M",
+            "0.18 M, 0.63 M"
+        ]
+    },
+    "avg_distance_COM_star1": {
+        "variations": [
+            "21.3 M, 3.1 M",
+            "9.6 M, 3.1 M",
+            "0.18 M, 0.63 M"
+        ]
+    },
+    "avg_distance_COM_star2": {
+        "variations": [
+            "21.3 M, 3.1 M",
+            "9.6 M, 3.1 M",
+            "0.18 M, 0.63 M"
+        ]
+    },
+    "eccentricity": {
+        "variations": [
+            "21.3 M, 3.1 M",
+            "9.6 M, 3.1 M",
+            "0.18 M, 0.63 M",
+            "9.6 M, 3.1 M, Proper Motion",
+            "9.6 M, 3.1 M, Proper Motion2",
+            "3.1 M, 0.18 M Elliptical"
+        ]
+    },
+    "kepler_3rd_law": {
+        "variations": [
+            "21.3 M, 3.1 M",
+            "9.6 M, 3.1 M",
+            "0.18 M, 0.63 M",
+            "10.1M, 5.6 M, Modified Gravity 1.97",
+            "10.1M, 5.6 M, Modified Gravity 2.03",
+            "10.1M, 5.6 M, Modified Gravity 1.97 Proper Motion"
+        ]
+    },
+    "mass_largest_star": {
+        "variations": [
+            "21.3 M, 3.1 M",
+            "9.6 M, 3.1 M",
+            "0.18 M, 0.63 M"
+        ]
+    },
+    "max_acceleration_star1": {
+        "variations": [
+            "21.3 M, 3.1 M",
+            "9.6 M, 3.1 M",
+            "0.18 M, 0.63 M",
+            "9.6 M, 3.1 M, Proper Motion",
+            "9.6 M, 3.1 M, Proper Motion2"
+        ]
+    },
+    "max_acceleration_star2": {
+        "variations": [
+            "21.3 M, 3.1 M",
+            "9.6 M, 3.1 M",
+            "0.18 M, 0.63 M"
+        ]
+    },
+    "max_angular_velocity_star1": {
+        "variations": [
+            "21.3 M, 3.1 M",
+            "9.6 M, 3.1 M",
+            "0.18 M, 0.63 M",
+            "9.6 M, 3.1 M, Proper Motion",
+            "9.6 M, 3.1 M, Proper Motion2"
+        ]
+    },
+    "max_angular_velocity_star2": {
+        "variations": [
+            "21.3 M, 3.1 M",
+            "9.6 M, 3.1 M",
+            "0.18 M, 0.63 M"
+        ]
+    },
+    "max_momentum_star1": {
+        "variations": [
+            "21.3 M, 3.1 M",
+            "9.6 M, 3.1 M",
+            "0.18 M, 0.63 M",
+            "9.6 M, 3.1 M, Proper Motion",
+            "9.6 M, 3.1 M, Proper Motion2"
+        ]
+    },
+    "max_momentum_star2": {
+        "variations": [
+            "21.3 M, 3.1 M",
+            "9.6 M, 3.1 M",
+            "0.18 M, 0.63 M"
+        ]
+    },
+    "max_velocity_star1": {
+        "variations": [
+            "21.3 M, 3.1 M",
+            "9.6 M, 3.1 M",
+            "0.18 M, 0.63 M",
+            "9.6 M, 3.1 M, Proper Motion",
+            "9.6 M, 3.1 M, Proper Motion2",
+            "9.6 M, 3.1 M, yrAUMsun",
+            "9.6 M, 3.1 M, cgs"
+        ]
+    },
+    "max_velocity_star2": {
+        "variations": [
+            "21.3 M, 3.1 M",
+            "9.6 M, 3.1 M",
+            "0.18 M, 0.63 M"
+        ]
+    },
+    "min_acceleration_star1": {
+        "variations": [
+            "21.3 M, 3.1 M",
+            "9.6 M, 3.1 M",
+            "0.18 M, 0.63 M"
+        ]
+    },
+    "min_acceleration_star2": {
+        "variations": [
+            "21.3 M, 3.1 M",
+            "9.6 M, 3.1 M",
+            "0.18 M, 0.63 M"
+        ]
+    },
+    "min_angular_velocity_star1": {
+        "variations": [
+            "21.3 M, 3.1 M",
+            "9.6 M, 3.1 M",
+            "0.18 M, 0.63 M"
+        ]
+    },
+    "min_angular_velocity_star2": {
+        "variations": [
+            "21.3 M, 3.1 M",
+            "9.6 M, 3.1 M",
+            "0.18 M, 0.63 M"
+        ]
+    },
+    "min_momentum_star1": {
+        "variations": [
+            "21.3 M, 3.1 M",
+            "9.6 M, 3.1 M",
+            "0.18 M, 0.63 M",
+            "9.6 M, 3.1 M, Proper Motion",
+            "9.6 M, 3.1 M, Proper Motion2",
+            "9.6 M, 3.1 M, yrAUMsun",
+            "9.6 M, 3.1 M, cgs"
+        ]
+    },
+    "min_momentum_star2": {
+        "variations": [
+            "21.3 M, 3.1 M",
+            "9.6 M, 3.1 M",
+            "0.18 M, 0.63 M"
+        ]
+    },
+    "min_velocity_star1": {
+        "variations": [
+            "21.3 M, 3.1 M",
+            "9.6 M, 3.1 M",
+            "0.18 M, 0.63 M"
+        ]
+    },
+    "min_velocity_star2": {
+        "variations": [
+            "21.3 M, 3.1 M",
+            "9.6 M, 3.1 M",
+            "0.18 M, 0.63 M"
+        ]
+    },
+    "multiply_mass_period": {
+        "variations": [
+            "21.3 M, 3.1 M",
+            "9.6 M, 3.1 M",
+            "0.18 M, 0.63 M"
+        ]
+    },
+    "orbital_area_star1": {
+        "variations": [
+            "21.3 M, 3.1 M",
+            "9.6 M, 3.1 M",
+            "0.18 M, 0.63 M"
+        ]
+    },
+    "orbital_area_star2": {
+        "variations": [
+            "21.3 M, 3.1 M",
+            "9.6 M, 3.1 M",
+            "0.18 M, 0.63 M"
+        ]
+    },
+    "periastron": {
+        "variations": [
+            "21.3 M, 3.1 M",
+            "9.6 M, 3.1 M",
+            "0.18 M, 0.63 M",
+            "3.1 M, 0.18 M, Elliptical, Single Orbit"
+        ]
+    },
+    "period": {
+        "variations": [
+            "21.3 M, 3.1 M",
+            "9.6 M, 3.1 M",
+            "0.18 M, 0.63 M",
+            "9.6 M, 3.1 M, Proper Motion",
+            "9.6 M, 3.1 M, Proper Motion2",
+            "9.6 M, 3.1 M, yrAUMsun",
+            "9.6 M, 3.1 M, cgs"
+        ]
+    },
+    "reduced_mass": {
+        "variations": [
+            "21.3 M, 3.1 M",
+            "9.6 M, 3.1 M",
+            "0.18 M, 0.63 M",
+            "9.6 M, 3.1 M, Proper Motion",
+            "9.6 M, 3.1 M, Proper Motion2",
+            "9.6 M, 3.1 M, yrAUMsun",
+            "9.6 M, 3.1 M, cgs"
+        ]
+    },
+    "semi_major_axis": {
+        "variations": [
+            "21.3 M, 3.1 M",
+            "9.6 M, 3.1 M",
+            "0.18 M, 0.63 M",
+            "9.6 M, 3.1 M, Proper Motion",
+            "9.6 M, 3.1 M, Proper Motion2",
+            "9.6 M, 3.1 M, yrAUMsun",
+            "9.6 M, 3.1 M, cgs"
+        ]
+    },
+    "semi_major_axis_star1": {
+        "variations": [
+            "21.3 M, 3.1 M",
+            "9.6 M, 3.1 M",
+            "0.18 M, 0.63 M",
+            "9.6 M, 3.1 M, Proper Motion",
+            "9.6 M, 3.1 M, Proper Motion2",
+            "9.6 M, 3.1 M, yrAUMsun",
+            "9.6 M, 3.1 M, cgs"
+        ]
+    },
+    "semi_major_axis_star2": {
+        "variations": [
+            "21.3 M, 3.1 M",
+            "9.6 M, 3.1 M",
+            "0.18 M, 0.63 M"
+        ]
+    },
+    "semi_minor_axis": {
+        "variations": [
+            "21.3 M, 3.1 M",
+            "9.6 M, 3.1 M",
+            "0.18 M, 0.63 M",
+            "9.6 M, 3.1 M, Proper Motion",
+            "9.6 M, 3.1 M, Proper Motion2"
+        ]
+    },
+    "semi_minor_axis_star1": {
+        "variations": [
+            "21.3 M, 3.1 M",
+            "9.6 M, 3.1 M",
+            "0.18 M, 0.63 M"
+        ]
+    },
+    "semi_minor_axis_star2": {
+        "variations": [
+            "21.3 M, 3.1 M",
+            "9.6 M, 3.1 M",
+            "0.18 M, 0.63 M"
+        ]
+    },
+    "specific_angular_momentum": {
+        "variations": [
+            "21.3 M, 3.1 M",
+            "9.6 M, 3.1 M",
+            "0.18 M, 0.63 M"
+        ]
+    },
+    "K+U": {
+        "variations": [
+            "10.1 M, 5.6 M, Unbound",
+            "21.3 M, 3.1 M",
+            "9.6 M, 3.1 M",
+            "0.18 M, 0.63 M",
+            "9.6 M, 3.1 M, Proper Motion",
+            "9.6 M, 3.1 M, Proper Motion2"
+        ]
+    },
+    "total_mass": {
+        "variations": [
+            "21.3 M, 3.1 M",
+            "9.6 M, 3.1 M",
+            "0.18 M, 0.63 M"
+        ]
+    },
+    "mass_ratio": {
+        "variations": [
+            "21.3 M, 3.1 M",
+            "9.6 M, 3.1 M",
+            "0.18 M, 0.63 M"
+        ]
+    },
+    "virial_theorem": {
+        "variations": [
+            "21.3 M, 3.1 M",
+            "9.6 M, 3.1 M",
+            "0.18 M, 0.63 M",
+            "7.7 M, 4.9 M, Drag tau = 1.7e9",
+            "7.7 M, 4.9 M, Drag tau = 8.3e8",
+            "7.7 M, 4.9 M, Drag tau = 8.3e8 Proper Motion"
+        ]
+    },
+    "travel_time_orbital_20per_path": {
+        "variations": [
+            "21.3 M, 3.1 M",
+            "9.6 M, 3.1 M",
+            "0.18 M, 0.63 M"
+        ]
+    },
+    "travel_time_orbital_70per_path": {
+        "variations": [
+            "21.3 M, 3.1 M",
+            "9.6 M, 3.1 M",
+            "0.18 M, 0.63 M"
+        ]
+    },
+    "is_bound": {
+        "variations": [
+            "21.3 M, 3.1 M",
+            "9.6 M, 3.1 M",
+            "0.18 M, 0.63 M",
+            "9.6 M, 3.1 M, Proper Motion",
+            "9.6 M, 3.1 M, Proper Motion2",
+            "9.6 M, 3.1 M, yrAUMsun",
+            "9.6 M, 3.1 M, cgs",
+            "10.1 M, 5.6 M, Unbound"
+        ]
+    },
+    "mass_star1": {
+        "variations": [
+            "21.3 M, 3.1 M",
+            "9.6 M, 3.1 M",
+            "0.18 M, 0.63 M",
+            "9.6 M, 3.1 M, Proper Motion",
+            "9.6 M, 3.1 M, Proper Motion2",
+            "9.6 M, 3.1 M, yrAUMsun",
+            "9.6 M, 3.1 M, cgs"
+        ]
+    },
+    "mass_star2": {
+        "variations": [
+            "21.3 M, 3.1 M",
+            "9.6 M, 3.1 M",
+            "0.18 M, 0.63 M",
+            "9.6 M, 3.1 M, Proper Motion",
+            "9.6 M, 3.1 M, Proper Motion2"
+        ]
+    },
+    "angle_of_inclination": {
+        "variations": []
+    },
+    "longitude_of_ascending_node": {
+        "variations": []
+    },
+    "argument_of_periapsis": {
+        "variations": []
+    }
+}

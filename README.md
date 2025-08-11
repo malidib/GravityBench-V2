@@ -14,10 +14,6 @@ A fourth parameter for random translation is available, but it has been set to `
 
 These three parameteres give us the full range of possible orientations for the binary orbit. Random geometry will not translate the binary orbit.
 
-```python
-def geometry(file_name:str, random=False, translation=True, verification=False):
-```
-
 There are two main uses for this geometry function:
 1. Random orientation
 2. Specific orientation

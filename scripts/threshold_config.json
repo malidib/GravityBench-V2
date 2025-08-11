@@ -157,8 +157,5 @@
     },
     "argument_of_periapsis": {
         "correct_threshold_percentage_based_on_100_observations": 5
-    },
-    "infer_x": {
-        "correct_threshold_percentage_based_on_100_observations": 5
     }
 }

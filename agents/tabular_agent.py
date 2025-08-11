@@ -75,7 +75,7 @@ class Agent:
         print(f'INTERNAL: Max execution time: {self.max_execution_time}')
         if self.reasoning_effort:
             print(f'INTERNAL: Reasoning effort: {self.reasoning_effort}')
-        self.temperature = temperature 
+        self.temperature = temperature
         self.package_names = "numpy scipy sklearn statsmodels pandas"
         self.df = self.environment.binary_sim.df
         self.available_packages = {
@@ -197,7 +197,7 @@ class Agent:
                                 call.function.arguments = json.dumps(block.input)
                                 assistant_message.tool_calls.append(call)
                         assistant_message.tool_calls = assistant_message.tool_calls or None
-                    elif self.model.lower().startswith('o'):
+                    elif self.model.lower().startswith('o') or self.model.lower().startswith('gpt-5'):
                         if self.reasoning_effort:
                             print(f"INTERNAL: Using model with reasoning effort: {self.reasoning_effort}")
                             response = llm.chat.completions.create(

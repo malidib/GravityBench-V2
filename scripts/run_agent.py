@@ -280,6 +280,9 @@ def run_agent_on_scenario(row_wise, scenario, scenario_name, variation_name, mod
         else:
             correct_answer = None
 
+        if model.lower().startswith('o') or model.lower().startswith('gpt-5'):
+            TEMPERATURE = 1.0 # OpenAI Reasoning models locked at temperature 1.0
+
         # Build result record
         run_result = {
             "scenario_name": scenario_name,

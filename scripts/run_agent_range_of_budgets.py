@@ -216,6 +216,9 @@ def run_agent_on_scenario(row_wise, scenario, scenario_name, variation_name, mod
         human_percent_diff = float(human_percent_diff) if human_percent_diff is not None else None
         human_correct = bool(human_correct) if human_correct is not None else None
 
+        if model.lower().startswith('o') or model.lower().startswith('gpt-5'):
+            TEMPERATURE = 1.0 # OpenAI Reasoning models locked at temperature 1.0
+
         run_result = {
             "scenario_name": scenario_name,
             "variation_name": variation_name,

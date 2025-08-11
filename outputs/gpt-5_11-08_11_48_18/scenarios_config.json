@@ -1,0 +1,193 @@
+{
+    "roche_lobe_radius": {
+        "variations": [
+            "3.1 M, 0.18 M Elliptical"
+        ]
+    },
+    "modified_gravity_power_law": {
+        "variations": [
+            "10.1M, 5.6 M, Modified Gravity 1.97",
+            "10.1M, 5.6 M, Modified Gravity 2.03",
+            "10.1M, 5.6 M, Modified Gravity 1.97 Proper Motion"
+        ]
+    },
+    "linear_drag": {
+        "variations": [
+            "7.7 M, 4.9 M, Drag tau = 1.7e9",
+            "7.7 M, 4.9 M, Drag tau = 8.3e8",
+            "7.7 M, 4.9 M, Drag tau = 8.3e8 Proper Motion"
+        ]
+    },
+    "time_fraction_acceleraton_below_mean": {
+        "variations": [
+            "21.3 M, 3.1 M",
+            "9.6 M, 3.1 M",
+            "0.18 M, 0.63 M"
+        ]
+    },
+    "apoastron": {
+        "variations": [
+            "21.3 M, 3.1 M",
+            "9.6 M, 3.1 M",
+            "0.18 M, 0.63 M",
+            "9.6 M, 3.1 M, Proper Motion",
+            "9.6 M, 3.1 M, Proper Motion2"
+        ]
+    },
+    "area_swept_over_time_apo": {
+        "variations": [
+            "21.3 M, 3.1 M",
+            "9.6 M, 3.1 M",
+            "0.18 M, 0.63 M"
+        ]
+    },
+    "area_swept_over_time_peri": {
+        "variations": [
+            "21.3 M, 3.1 M",
+            "9.6 M, 3.1 M",
+            "0.18 M, 0.63 M"
+        ]
+    },
+    "avg_distance_COM_star1": {
+        "variations": [
+            "21.3 M, 3.1 M",
+            "9.6 M, 3.1 M",
+            "0.18 M, 0.63 M"
+        ]
+    },
+    "avg_distance_COM_star2": {
+        "variations": []
+    },
+    "eccentricity": {
+        "variations": []
+    },
+    "kepler_3rd_law": {
+        "variations": []
+    },
+    "mass_largest_star": {
+        "variations": []
+    },
+    "max_acceleration_star1": {
+        "variations": []
+    },
+    "max_acceleration_star2": {
+        "variations": []
+    },
+    "max_angular_velocity_star1": {
+        "variations": []
+    },
+    "max_angular_velocity_star2": {
+        "variations": []
+    },
+    "max_momentum_star1": {
+        "variations": []
+    },
+    "max_momentum_star2": {
+        "variations": []
+    },
+    "max_velocity_star1": {
+        "variations": []
+    },
+    "max_velocity_star2": {
+        "variations": []
+    },
+    "min_acceleration_star1": {
+        "variations": []
+    },
+    "min_acceleration_star2": {
+        "variations": []
+    },
+    "min_angular_velocity_star1": {
+        "variations": []
+    },
+    "min_angular_velocity_star2": {
+        "variations": []
+    },
+    "min_momentum_star1": {
+        "variations": []
+    },
+    "min_momentum_star2": {
+        "variations": []
+    },
+    "min_velocity_star1": {
+        "variations": []
+    },
+    "min_velocity_star2": {
+        "variations": []
+    },
+    "multiply_mass_period": {
+        "variations": []
+    },
+    "orbital_area_star1": {
+        "variations": []
+    },
+    "orbital_area_star2": {
+        "variations": []
+    },
+    "periastron": {
+        "variations": []
+    },
+    "period": {
+        "variations": []
+    },
+    "reduced_mass": {
+        "variations": []
+    },
+    "semi_major_axis": {
+        "variations": []
+    },
+    "semi_major_axis_star1": {
+        "variations": []
+    },
+    "semi_major_axis_star2": {
+        "variations": []
+    },
+    "semi_minor_axis": {
+        "variations": []
+    },
+    "semi_minor_axis_star1": {
+        "variations": []
+    },
+    "semi_minor_axis_star2": {
+        "variations": []
+    },
+    "specific_angular_momentum": {
+        "variations": []
+    },
+    "K+U": {
+        "variations": []
+    },
+    "total_mass": {
+        "variations": []
+    },
+    "mass_ratio": {
+        "variations": []
+    },
+    "virial_theorem": {
+        "variations": []
+    },
+    "travel_time_orbital_20per_path": {
+        "variations": []
+    },
+    "travel_time_orbital_70per_path": {
+        "variations": []
+    },
+    "is_bound": {
+        "variations": []
+    },
+    "mass_star1": {
+        "variations": []
+    },
+    "mass_star2": {
+        "variations": []
+    },
+    "angle_of_inclination": {
+        "variations": []
+    },
+    "longitude_of_ascending_node": {
+        "variations": []
+    },
+    "argument_of_periapsis": {
+        "variations": []
+    }
+}
