@@ -76,9 +76,9 @@ The setup is as follows:
 
 5. Explore results as normal, and you can run the "Reproducing Paper Results" section located below. You can also continue running different other scenario configurations. Finally at the end if you would like to run expert solution, set up the threshold you would like at` scripts\threshold_config.py` and call:
 
-```bash
-python scripts/run_expert_solution.py
-```
+    ```bash
+    python scripts/run_expert_solution.py
+    ```
 
     The threshold can be changed at any time so you can decide on a final threshold value at the end. Run expert solution will contain every scenario-variation ran from all files.
 
