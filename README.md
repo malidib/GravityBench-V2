@@ -1,26 +1,28 @@
 # Gravity-Bench-V2: A Benchmark for AI Discovery of Gravitational Physics
-This version of the benchmark builds on top of the [first version](https://github.com/NolanKoblischke/GravityBench). In version 2, projection is added for realistic view of binary orbits. It takes the origin of a xyz coordinate as the reference viewpoint, and returns a x'y' coordinated of the projected binary orbit.
+This version of the benchmark builds on top of the [1st version](https://github.com/NolanKoblischke/GravityBench). In version 2, projection is added for realistic view of binary orbits. It takes the origin of a xyz coordinate system as the reference viewing point, and returns a x'y' coordinate of the projected binary orbit.
 
-This version also allows for random or specific orientations of binary orbits. This is useful to test how different orientations with projection can affect the agent figuring out different problems.
+This version also allows for random or specific orientations of binary orbits, allowing for great control of binary systems. This is useful to test how different orientations with projection can affect the agent figuring out different problems.
 
 ## Guide: Geometry
 
 A geometry function is added that allows for transformation of binary orbits. It uses three parameters to model the orientation:
-1. Inclination angle, with xy plane as reference
-2. Longitude of ascending node, with positive x-axis as reference
-3. Argument of periapsis, with the longitude of ascending node as reference
+1. Inclination angle, with xy plane as reference [0, pi]
+2. Longitude of ascending node, with positive x-axis as reference [-pi, pi]
+3. Argument of periapsis, with the longitude of ascending node as reference [0, 2pi]
 
-These three parameteres give us the full range of possible orientations for the binary orbit. Additionally, translation of the binary orbit is also available. However, it has been disabled for random geometry, so running random geometries will not translate it but only transform the three orientation specified above. To turn on translation, simply change the default function call to True in `scripts\geometry_config.py`.
+A fourth parameter for random translation is available, but it has been set to `False` in the `geometry()` function. This is located in `scripts/geometry_config.py`. If you would like random translation, simply turn it to `True`. You may have to change the range of the translation in the code.
+
+These three parameteres give us the full range of possible orientations for the binary orbit. Random geometry will not translate the binary orbit.
 
 ```python
 def geometry(file_name:str, random=False, translation=True, verification=False):
 ```
 
-There are two main usage for this geometry function:
+There are two main uses for this geometry function:
 1. Random orientation
 2. Specific orientation
 
-The specific orientation uses specific naming to transform the orientation. It starts with a base name as is in the preconfigured variations in `scripts\scenario_config.py`, followed by a `;`, then `Inc`, `Long`, `Arg`, followed again by a `;`, and finally `Trans`. Any parameters that is wanted left unchanged can be left out while following the same order. Note that it uses the base scenario parameters as setup, so projection will follow whether these base scenarios have projection turned on.
+The specific orientation uses specific naming to transform the orientation. It starts with a `base name` as is in the preconfigured variations in `scripts\scenario_config.py`, followed by a semicolon `;`, then `Inc`, `Long`, `Arg`, followed again by a semicolon `;`, and finally `Trans`. Any parameters that is wanted left unchanged can be left out while following the same order. Note that it uses the base scenario parameters as setup, so projection will follow whether these base scenarios have projection turned on.
 
 Examples of valid formats:
 
@@ -32,9 +34,13 @@ Examples of valid formats:
 
 ## Guide: Projection
 
-Projection works through taking the origin as a reference viewpoint. It then looks in the direction of the inital centre of mass of the binary system, taking that COM vector as the normal vector to the sky plane we are viewing. Essentially, it transform a xyz binary orbit coordinate to a new x'y' coordinate, where positive y' axis is always poinitng north, and x' positive axis is always pointing east. This is similar to assigning x'y' coordinate onto the sky as viewed on Earth.
+Projection works through taking the origin as a reference viewpoint. It then looks in the direction of the inital centre of mass of the binary system, taking that COM vector as the normal vector to the sky plane we are viewing. It transform a xyz binary orbit coordinate to a new x'y' coordinate, where positive y' axis is always poinitng north, and x' positive axis is always pointing east. This is similar to assigning x'y' coordinate onto the sky as viewed on Earth.
+
+When running on full observation, the projected variations are saved in a new folder `scenarios/projected_sims` which could be useful for personal analysis.
 
 ## Setup: Projection and Geometry
+
+The code works by generating csv files with random orientations to `scenarios/detailed_sims` and `scenarios/sims`. It also updates these variations onto a new `scenarios_config.json` under the model output folder for you to keep track of variations that was ran successfully. Most functions for random geometry are contained in `scripts/geometry_config.py`.
 
 The setup is as follows:
 1. Setup variations in `scripts/scenarios_config.py` and include extra parameter `projection=True` for projection cases
@@ -45,7 +51,7 @@ The setup is as follows:
         '21.3 M, 3.1 M': BinaryScenario('21.3 M, 3.1 M', 21.3*Msun, 3.1*Msun, [-5e12, -7e12, 0], [-3e12, -8e12, 0], ellipticity=0.6, projection=True)}
     ```
 
-    For projection cases, be sure to keep the orbit far away from the origin, such that we can view the whole orbit in one plane. In invalid projection would have a separation vector cutting through the origin, which would make projection physically impossible, we would need to view it simultaneously on both directions to be able to view the two stars.
+    For projection cases, be sure to keep the orbit far away from the origin, such that we can view the whole orbit in one plane. Please also note that the binary orbit should not have its barycenter near the origin, as this could make projection physically invalid. A star at position [1, 0, 0] and another at [-1, 0, 0] would require us to look east and west at the same time, which does not make sense.
 
 2. Add variation name onto whichever scenario you would like to test in `scripts/scenarios_config.json`.
 
@@ -60,77 +66,150 @@ The setup is as follows:
 
     This will orient the orbit to have 2.1 rad inclination, 1.2 rad longitude of ascending node, 0.4 rad argument of periapsis, with a translation the orbit of distance [1e4, 2e2, -2e2]. The order must be similar to what was stated, with semicolons.
 
-4. If you would like to perform random orientaions, run scenario with additional parameter --random-geometry 5, which will create 5 random geometry transformation of the original variations listed in scenarios_config.json. If a transformation is specified, it will transform it to the specified orientation first, then randomly transformed to 5 other orientations. 
+4. If you would like to perform random orientaions, run scenario with additional parameter `--random-geometry 5`, which will create 5 random geometry transformation of the original variations listed in `scenarios_config.json`. If a transformation is specified, it will transform it to the specified orientation first, then randomly transformed to 5 other orientations. 
 
     ```bash
     python scripts/run_agent.py --simulate-all --model gpt-4o-mini --random-geometry 5
     ```
 
-    Note: The random variations will be shared across scenarios with the same variation name, so that it can be tested for coherency with different scenario problem. However, when random geometry is run, the original variations are not run, so it runs only on the 5 new random variations. If you would like to run the original variations too, then run it without --random-geomtry separately.
+    Note: The random variations will be shared across scenarios with the same variation name, so that it can be tested for coherency with different scenario problem. However, when random geometry is run, the original variations are not run, so it runs only on the 5 new random variations. If you would like to run the original variations too, then run it without `--random-geomtry` separately.
 
-5. Explore results as normal, and you can run the "Reproducing Paper Results" section located below. You can also continue running different other scenario configurations. Finally at the end if you would like to run `python scripts/run_expert_solution.py`, set up the threshold you would like at `scripts\threshold_config.py`, note to only change the threshold value and not input any variations.
+5. Explore results as normal, and you can run the "Reproducing Paper Results" section located below. You can also continue running different other scenario configurations. Finally at the end if you would like to run expert solution, set up the threshold you would like at` scripts\threshold_config.py` and call:
 
-6. After completing the results, you can reset fully by deleting random transformed variations csv files.
+```bash
+python scripts/run_expert_solution.py
+```
+
+    The threshold can be changed at any time so you can decide on a final threshold value at the end. Run expert solution will contain every scenario-variation ran from all files.
+
+6. After completing the results, you can reset fully by deleting random transformed variations csv files from `detailed_sims`, `sims` and `projected_sims`.
 
     ```bash
     python scripts/geometry_config.py --reset
     ```
 
-The code works by generating csv files with random orientations to `scenarios/detailed_sims` and `scenarios/sims`. It also updates these variations onto a new `scenarios_config.json` under the model output folder for you to keep track of variations that was ran. Most functions for random geometry are contained in `scripts/geometry_config.py`.
-
 ## Examples you can run
-We can alter orientation little by little and test their projection with the agent. An example we could do is the following:
+### 1. Orientations - Specified
 
-In scenarios_config.py:
+We could alter orientation parameters little by little and see how the agent reacts to solving related problems.
+
+We can set up the following:
+
+1. In `scenarios_config.py`, set up base variations
+
+```python
+variations = {
+    '21.3 M, 3.1 M': BinaryScenario('21.3 M, 3.1 M', 21.3*Msun, 3.1*Msun, [-5e12, -7e12, 0], [-3e12, -8e12, 0], ellipticity=0.6, projection=False)}
+```
+
+2. In `scenarios_config.json`, set up different orientations
+
 ```json
 "angle_of_inclination": {
-        "variations": [
-            "21.3 M, 3.1 M",
-            "21.3 M, 3.1 M; Inc_0.5",
-            "21.3 M, 3.1 M; Inc_1",
-            "21.3 M, 3.1 M; Inc_1.5",
-            "21.3 M, 3.1 M; Inc_2"
-        ],
-        "correct_threshold_percentage_based_on_100_observations": 5
-    },
+    "variations": [
+        "21.3 M, 3.1 M", 
+        "21.3 M, 3.1 M; Inc_0.5",
+        "21.3 M, 3.1 M; Inc_1",
+        "21.3 M, 3.1 M; Inc_1.5",
+        "21.3 M, 3.1 M; Inc_2",
+        "21.3 M, 3.1 M; Inc_3.142",
+    ]
+}
 ```
 
-In scenarios_config.py:
-```python
-variations = {'21.3 M, 3.1 M': BinaryScenario('21.3 M, 3.1 M', 21.3*Msun, 3.1*Msun, [-5e12, -7e12, 0], [-3e12, -8e12, 0], ellipticity=0.6, projection=True},
-```
+From egde-on to face-on cases here. Of course you can include much more parameters like:
 
-And run:
-```bash
-python scripts/run_agent.py --simulate-all
-```
-
-This will create 4 extra files each containing as specified inclination angles, project them and feed it into the agent.
-
-
-Another example is to just test random geometries
-
-In scenarios_config.py:
 ```json
 "angle_of_inclination": {
-        "variations": [
-            "21.3 M, 3.1 M",
-        ],
-        "correct_threshold_percentage_based_on_100_observations": 5
-    },
+    "variations": [
+        "21.3 M, 3.1 M", 
+        "21.3 M, 3.1 M; Inc_0.5_Arg_4.2",
+        "21.3 M, 3.1 M; Inc_0.5_Long_-0.2; Trans_[4e4, 2e4, -3e2]",
+    ]
+}
 ```
 
-In scenarios_config.py:
-```python
-variations = {'21.3 M, 3.1 M': BinaryScenario('21.3 M, 3.1 M', 21.3*Msun, 3.1*Msun, [-5e12, -7e12, 0], [-3e12, -8e12, 0], ellipticity=0.6, projection=False},
-```
+3. Then run the agent:
 
-And run:
 ```bash
-python scripts/run_agent.py --simulate-all --random-geometry 5
+python scripts/run_agent.py --scenarios angle_of_inclination
 ```
 
-This will create 5 new randomly transformed binary orbit orientation files and feed them into the agent testing for angle of inclination.
+### 2. Orientations - Random
+
+Even with specified orientation, you can also call `--random-geometry`, which will duplicate each variation to random orienatitions with the number specified. So let's say that our `angle_of_inclination` was set up as follows:
+
+```json
+"angle_of_inclination": {
+    "variations": [
+        "21.3 M, 3.1 M", 
+        "21.3 M, 3.1 M; Inc_0.5_Arg_4.2",
+        "21.3 M, 3.1 M; Inc_0.5_Long_-0.2; Trans_[4e4, 2e4, -3e2]",
+    ]
+}
+```
+
+Then running: 
+
+```bash
+python scripts/run_agent.py --simulate angle_of_inclination --random-geometry 3
+```
+
+will create 3 randomly transformed files for each variation, but not including the ones listed in the json file, so it will create a total of 9 new files, and only test on these new 9 files. Of course, since it will be randomly generated, there is no point specifying an orientation beforehand. If you would like to include original variations, just run it again without the `--random-geometry`
+
+
+
+Remember that randomly transformed variations are shared across scenarios. So running `--random-geometry` on 
+
+```json
+"mass_star2": {
+        "variations": [
+        "21.3 M, 3.1 M"
+    ]
+    },
+"angle_of_inclination": {
+    "variations": [
+        "21.3 M, 3.1 M"
+    ]
+}
+```
+
+will create random files that have the same random orientation for both scenarios.
+
+### 3. Projection
+
+A more interesting example would be to test how different orientations with projection can affect agent runs. We do this similar to the one before.
+
+
+1. In `scenarios_config.py`, set up base variations
+
+```python
+variations = {
+    '21.3 M, 3.1 M': BinaryScenario('21.3 M, 3.1 M', 21.3*Msun, 3.1*Msun, [-5e12, -7e12, 0], [-3e12, -8e12, 0], ellipticity=0.6, projection=True)}
+```
+
+2. In `scenarios_config.json`, set up different orientations
+
+```json
+"angle_of_inclination": {
+    "variations": [
+        "21.3 M, 3.1 M", 
+        "21.3 M, 3.1 M; Inc_0.5",
+        "21.3 M, 3.1 M; Inc_1",
+        "21.3 M, 3.1 M; Inc_1.5",
+        "21.3 M, 3.1 M; Inc_2",
+        "21.3 M, 3.1 M; Inc_3.142",
+    ]
+}
+```
+
+3. Run agent:
+
+```bash
+python scripts/run_agent.py --scenarios angle_of_inclination
+```
+
+This will test projection from edge-on to face-on cases, an interesting problem. 
 
 
 ## Key Features
