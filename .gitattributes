@@ -1,6 +1,0 @@
-*.csv filter=lfs diff=lfs merge=lfs -text
-*.zip filter=lfs diff=lfs merge=lfs -text
-outputs/*.csv filter=lfs diff=lfs merge=lfs -text
-outputs_range_of_N/**/*.csv filter=lfs diff=lfs merge=lfs -text
-scenarios/sims/** filter=lfs diff=lfs merge=lfs -text
-scenarios/detailed_sims/** filter=lfs diff=lfs merge=lfs -text
