@@ -1,0 +1,164 @@
+{
+    "roche_lobe_radius": {
+        "correct_threshold_percentage_based_on_100_observations": 5
+    },
+    "modified_gravity_power_law": {
+        "correct_threshold_percentage_based_on_100_observations": 70
+    },
+    "linear_drag": {
+        "correct_threshold_percentage_based_on_100_observations": 15
+    },
+    "time_fraction_acceleraton_below_mean": {
+        "correct_threshold_percentage_based_on_100_observations": 15
+    },
+    "apoastron": {
+        "correct_threshold_percentage_based_on_100_observations": 5
+    },
+    "area_swept_over_time_apo": {
+        "correct_threshold_percentage_based_on_100_observations": 15
+    },
+    "area_swept_over_time_peri": {
+        "correct_threshold_percentage_based_on_100_observations": 15
+    },
+    "avg_distance_COM_star1": {
+        "correct_threshold_percentage_based_on_100_observations": 15
+    },
+    "avg_distance_COM_star2": {
+        "correct_threshold_percentage_based_on_100_observations": 15
+    },
+    "eccentricity": {
+        "correct_threshold_percentage_based_on_100_observations": 5
+    },
+    "kepler_3rd_law": {
+        "correct_threshold_percentage_based_on_100_observations": 5
+    },
+    "mass_largest_star": {
+        "correct_threshold_percentage_based_on_100_observations": 5
+    },
+    "max_acceleration_star1": {
+        "correct_threshold_percentage_based_on_100_observations": 70
+    },
+    "max_acceleration_star2": {
+        "correct_threshold_percentage_based_on_100_observations": 70
+    },
+    "max_angular_velocity_star1": {
+        "correct_threshold_percentage_based_on_100_observations": 20
+    },
+    "max_angular_velocity_star2": {
+        "correct_threshold_percentage_based_on_100_observations": 20
+    },
+    "max_momentum_star1": {
+        "correct_threshold_percentage_based_on_100_observations": 20
+    },
+    "max_momentum_star2": {
+        "correct_threshold_percentage_based_on_100_observations": 20
+    },
+    "max_velocity_star1": {
+        "correct_threshold_percentage_based_on_100_observations": 20
+    },
+    "max_velocity_star2": {
+        "correct_threshold_percentage_based_on_100_observations": 20
+    },
+    "min_acceleration_star1": {
+        "correct_threshold_percentage_based_on_100_observations": 5
+    },
+    "min_acceleration_star2": {
+        "correct_threshold_percentage_based_on_100_observations": 5
+    },
+    "min_angular_velocity_star1": {
+        "correct_threshold_percentage_based_on_100_observations": 5
+    },
+    "min_angular_velocity_star2": {
+        "correct_threshold_percentage_based_on_100_observations": 5
+    },
+    "min_momentum_star1": {
+        "correct_threshold_percentage_based_on_100_observations": 5
+    },
+    "min_momentum_star2": {
+        "correct_threshold_percentage_based_on_100_observations": 5
+    },
+    "min_velocity_star1": {
+        "correct_threshold_percentage_based_on_100_observations": 5
+    },
+    "min_velocity_star2": {
+        "correct_threshold_percentage_based_on_100_observations": 5
+    },
+    "multiply_mass_period": {
+        "correct_threshold_percentage_based_on_100_observations": 5
+    },
+    "orbital_area_star1": {
+        "correct_threshold_percentage_based_on_100_observations": 5
+    },
+    "orbital_area_star2": {
+        "correct_threshold_percentage_based_on_100_observations": 5
+    },
+    "periastron": {
+        "correct_threshold_percentage_based_on_100_observations": 5
+    },
+    "period": {
+        "correct_threshold_percentage_based_on_100_observations": 5
+    },
+    "reduced_mass": {
+        "correct_threshold_percentage_based_on_100_observations": 5
+    },
+    "semi_major_axis": {
+        "correct_threshold_percentage_based_on_100_observations": 5
+    },
+    "semi_major_axis_star1": {
+        "correct_threshold_percentage_based_on_100_observations": 5
+    },
+    "semi_major_axis_star2": {
+        "correct_threshold_percentage_based_on_100_observations": 5
+    },
+    "semi_minor_axis": {
+        "correct_threshold_percentage_based_on_100_observations": 5
+    },
+    "semi_minor_axis_star1": {
+        "correct_threshold_percentage_based_on_100_observations": 5
+    },
+    "semi_minor_axis_star2": {
+        "correct_threshold_percentage_based_on_100_observations": 5
+    },
+    "specific_angular_momentum": {
+        "correct_threshold_percentage_based_on_100_observations": 15
+    },
+    "K+U": {
+        "correct_threshold_percentage_based_on_100_observations": 40
+    },
+    "total_mass": {
+        "correct_threshold_percentage_based_on_100_observations": 5
+    },
+    "mass_ratio": {
+        "correct_threshold_percentage_based_on_100_observations": 5
+    },
+    "virial_theorem": {
+        "correct_threshold_percentage_based_on_100_observations": 5
+    },
+    "travel_time_orbital_20per_path": {
+        "correct_threshold_percentage_based_on_100_observations": 70
+    },
+    "travel_time_orbital_70per_path": {
+        "correct_threshold_percentage_based_on_100_observations": 15
+    },
+    "is_bound": {
+        "correct_threshold_percentage_based_on_100_observations": 5
+    },
+    "mass_star1": {
+        "correct_threshold_percentage_based_on_100_observations": 5
+    },
+    "mass_star2": {
+        "correct_threshold_percentage_based_on_100_observations": 5
+    },
+    "angle_of_inclination": {
+        "correct_threshold_percentage_based_on_100_observations": 5
+    },
+    "longitude_of_ascending_node": {
+        "correct_threshold_percentage_based_on_100_observations": 5
+    },
+    "argument_of_periapsis": {
+        "correct_threshold_percentage_based_on_100_observations": 5
+    },
+    "infer_x": {
+        "correct_threshold_percentage_based_on_100_observations": 5
+    }
+}

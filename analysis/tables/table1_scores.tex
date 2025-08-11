@@ -1,0 +1,21 @@
+
+\begin{table*}[!htb]
+    \centering
+    \footnotesize
+    \caption{Model performance. Each model: 2 runs.}\label{tab:performance}
+    \begin{tabular}{lcccc}
+    \toprule
+    & \textbf{Score} & \textbf{Total Cost (\$)} & \textbf{Total Time (min)} & \textbf{Mean Observations Used} \\
+    \midrule
+    \multicolumn{5}{l}{\textbf{Full Table Access}} \\
+    gpt-4.1-mini & \textbf{55.6\% $\pm$ 6.3\%} & 0.22 $\pm$ 0.00 & 13.2 $\pm$ 0.0 & - \\
+    gpt-4.1 & 48.3\% $\pm$ 4.1\% & 1.94 $\pm$ 0.00 & 23.1 $\pm$ 0.0 & - \\
+    gpt-4o-mini & 0.0\% $\pm$ 0.0\% & 0.01 $\pm$ 0.00 & 1.2 $\pm$ 0.0 & - \\
+\\[0.5em]
+    \multicolumn{5}{l}{\textbf{Sequential Observations - 100 Observation Budget}} \\
+    gpt-4o-mini & nan\% $\pm$ nan\% & nan $\pm$ nan & nan $\pm$ nan & nan $\pm$ nan \\
+    gpt-4.1 & nan\% $\pm$ nan\% & nan $\pm$ nan & nan $\pm$ nan & nan $\pm$ nan \\
+    gpt-4.1-mini & nan\% $\pm$ nan\% & nan $\pm$ nan & nan $\pm$ nan & nan $\pm$ nan \\
+    \bottomrule
+    \end{tabular}
+\end{table*}
