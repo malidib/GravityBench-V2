@@ -357,22 +357,6 @@ To reproduce the main results presented in the paper (arXiv:2501.18411), follow 
     ```
     The generated figures will typically be saved in `analysis/plots/` or `outputs_range_of_N/plots/`, and LaTeX tables in `analysis/tables/`.
 
-## Citation
-
-If you use Gravity-Bench in your research, please cite our paper:
-
-```bibtex
-@misc{koblischke2025gravitybenchv1,
-      title={Gravity-Bench-v1: A Benchmark on Gravitational Physics Discovery for Agents}, 
-      author={Nolan Koblischke and Hyunseok Jang and Kristen Menou and Mohamad Ali-Dib},
-      year={2025},
-      eprint={2501.08411},
-      archivePrefix={arXiv},
-      primaryClass={cs.AI}
-}
-```
-![Simulation Example](analysis/plots/Simulations.png)
-
 ## License
 
 This project is licensed under the MIT License - see the `LICENSE` file for details.
