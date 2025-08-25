@@ -306,56 +306,6 @@ This will test projection from edge-on to face-on cases, an interesting problem.
 
 To run your own model you can modify `agents/tabular_agent.py`. To run your own agent framework, we recommend adapting our `quick_start.py` which contains a minimal all-in-one example for a simple agent framework using our [Huggingface dataset](https://huggingface.co/datasets/GravityBench/GravityBench).
 
-## Reproducing Paper Results
-
-To reproduce the main results presented in the paper (arXiv:2501.18411), follow these general steps:
-
-1.  **Run Experiments with Different Agents and Settings:**
-    Refer to Section 4 of the paper for details on models and configurations tested.
-    *   **Full-Observation Mode:**
-        ```bash
-        python scripts/run_agent.py --simulate-all --model gpt-4o-mini-2024-07-18
-        ```
-    *   **Budgeted-Observation Mode (e.g., 100 observations):**
-        ```bash
-        python scripts/run_agent.py --simulate-all --model gpt-4o-mini-2024-07-18 --row-wise --max-observations-total 100
-        ```
-    *   **Varying Observation Budgets (for specific scenarios/models, see Figure 2 in paper):**
-        ```bash
-        python scripts/run_agent_range_of_budgets.py --model gpt-4o-2024-11-20 --scenarios max_velocity_star1 periastron --variation "9.6 M, 3.1 M" --variation "3.1 M, 0.18 M, Elliptical, Single Orbit"
-        ```
-
-2.  **Generate Expert Baseline Data:**
-    This script calculates the performance of the expert-defined empirical solutions.
-    ```bash
-    python scripts/run_expert_solution.py
-    ```
-    This will create `outputs/expert_baseline_results.csv`.
-
-3.  **Aggregate Raw Experiment Results:**
-    After running the agent experiments, combine their JSON outputs:
-    ```bash
-    python outputs/combine_results.py
-    ```
-    This creates `outputs/combined_results.csv` and `outputs/chat_histories.csv`.
-
-    For results from `run_agent_range_of_budgets.py`:
-    ```bash
-    python outputs_range_of_N/aggregate.py
-    ```
-    This creates `outputs_range_of_N/aggregated_results.csv`.
-
-4.  **Generate Figures and Tables:**
-    Run the analysis scripts located in the `analysis/` directory. These scripts use the aggregated CSV files.
-    ```bash
-    python analysis/table1_scores.py       # For Table 1
-    python analysis/table2_massassumption.py # For Table 2 in Appendix
-    python analysis/fig_casestudy.py       # For Figure 3 (Traces) - Note: this script uses specific hardcoded observation data.
-    python analysis/plot_100_obs_human_performance.py # For Figure 4 (Thresholds)
-    python outputs_range_of_N/fig_maxvelocity_and_periastron.py # For Figure 2 (Varying Budgets)
-    python outputs_range_of_N/fig_periastron.py # For Figure 5 (Periastron Case Study)
-    ```
-    The generated figures will typically be saved in `analysis/plots/` or `outputs_range_of_N/plots/`, and LaTeX tables in `analysis/tables/`.
 
 ## License
 
