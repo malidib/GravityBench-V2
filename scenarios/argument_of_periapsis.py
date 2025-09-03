@@ -34,7 +34,6 @@ class Scenario:
         # Get mass and reduced mass
         m1, m2 = df['star1_mass'].iloc[0], df['star2_mass'].iloc[0]
         total_mass = m1 + m2
-        reduced_mass = (m1 * m2)/total_mass
 
         # Calculate the eccentricity vector
         r_rel = np.stack([
@@ -56,16 +55,29 @@ class Scenario:
         longitude_of_ascending_node_vector =  np.cross([0, 0, 1], h_unit)
 
         # Calculate the eccentricity vector
-        reduced_mass = (m1 * m2)/total_mass # Reduced mass of the binary system
         r_norm = np.linalg.norm(r_rel, axis=1).reshape(-1, 1)
-        eccentricity_vector = np.mean((np.cross(v_rel, h_vec) / reduced_mass) - (r_rel / r_norm), axis=0)
+        G = 6.67430e-11 # Gravitational constant
+        mu = G * total_mass
+        eccentricity_vector = np.mean((np.cross(v_rel, h_vec) / mu) - (r_rel / r_norm), axis=0)
 
         # Calculate the argument of periapsis
         norm_e = np.linalg.norm(eccentricity_vector)
         norm_long = np.linalg.norm(longitude_of_ascending_node_vector)
 
-        if norm_e < 1e-12 or norm_long <1e-12:
-            argument_of_periapsis = 0.0 # e≈0 or Ω undefined, handle near-zero norms
+        if norm_e < 1e-12 and norm_long <1e-12:
+            argument_of_periapsis = 0.0 
+        elif norm_e < 1e-12:
+            argument_of_periapsis = 0.0
+        elif norm_long < 1e-12:
+            cosine = np.dot(eccentricity_vector, (1, 0, 0)) / (norm_e)
+            cosine = np.clip(cosine, -1.0, 1.0) # Clamp cosine-argument to [-1 , 1]
+            argument_of_periapsis = np.arccos(cosine)
+
+            # sin() disambiguation
+            sin_argp = np.dot(np.cross((1, 0, 0), eccentricity_vector), h_unit)
+            # Flip angle if sin is negative
+            if sin_argp < 0:
+                argument_of_periapsis = 2 * np.pi - argument_of_periapsis
         else:
             cosine = np.dot(eccentricity_vector, longitude_of_ascending_node_vector) / (norm_e * norm_long)
             cosine = np.clip(cosine, -1.0, 1.0) # Clamp cosine-argument to [-1 , 1]

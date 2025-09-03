@@ -274,8 +274,9 @@ def get_scenario(scenario_name, variation_name, row_wise=False,
     # Import scenario module and create instance
     scenario_module = importlib.import_module(f"{scenario_folder}.{scenario_name}")
 
-    # Inc in variation names, the file is geometry function produced, so we setup a new scenario for them
-    if "Inc" in variation_name:
+    # Any parameters in variation names, the file is geometry function produced, so we setup a new scenario for them
+    col = ["Inc", "Arg", "Long", "Trans"]
+    if any(p in variation_name for p in col):
         # If it is a new variation and the file does not exist, use geometry to run it, since it is given a special name, the function will recognise the orientation and save a new csv file
         if skip_simulation == False:
             import scripts.geometry_config as geometry_config

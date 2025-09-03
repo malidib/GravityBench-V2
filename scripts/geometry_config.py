@@ -6,7 +6,7 @@ import re
 import ast
 import ast
 import argparse
-import scenarios_config
+import scripts.scenarios_config as scenarios_config
 
 def geometry(file_name:str, random=False, translation=False, verification=False):
     """
@@ -112,16 +112,16 @@ def geometry(file_name:str, random=False, translation=False, verification=False)
             translation = file_split[-1].split('_')
             translation_list = ast.literal_eval(translation[-1])
             translation_x, translation_y, translation_z = float(translation_list[0]), float(translation_list[1]), float(translation_list[2])
-            geometry_name = file_split[-2].split('_')
+            geometry_name = file_split[-2].strip().split('_')
         else: 
-            geometry_name = file_split[-1].split('_')
+            geometry_name = file_split[-1].strip().split('_')
             translation_x = 0
             translation_y = 0
             translation_z = 0
 
         index = 1
         # By following the order Inc, Long, Arg, the index will correctly correspond to whichever is wanted
-        if ' Inc' in geometry_name:
+        if 'Inc' in geometry_name:
             inclination = float(geometry_name[index])
             index += 2
         else:
@@ -192,9 +192,10 @@ def geometry(file_name:str, random=False, translation=False, verification=False)
     h_unit = h_avg / np.linalg.norm(h_avg)
 
     # Calculate the eccentricity vector
-    reduced_mass = (m1 * m2)/total_mass # Reduced mass of the binary system
     r_norm = np.linalg.norm(r_rel, axis=1).reshape(-1, 1)
-    eccentricity_vector = np.mean((np.cross(v_rel, h_vec) / reduced_mass) - (r_rel / r_norm), axis=0)
+    G = 6.67430e-11 # Gravitational constant
+    mu = G * total_mass # Standard gravitational parameter
+    eccentricity_vector = np.mean((np.cross(v_rel, h_vec) / mu) - (r_rel / r_norm), axis=0)
 
     # Get inclination difference
     inc_diff = inclination - current_inclination
@@ -336,19 +337,30 @@ def geometry(file_name:str, random=False, translation=False, verification=False)
     h_vec = np.cross(r_rel, v_rel)
     h_avg = h_vec.mean(axis=0)  # shape: (3,)
     h_unit = h_avg / np.linalg.norm(h_avg)
-    longitude_of_ascending_node_vector =  np.cross([0, 0, 1], h_unit)
+    longitude_of_ascending_node_vector = np.cross([0, 0, 1], h_unit)
 
     # Calculate the eccentricity vector
-    reduced_mass = (m1 * m2)/total_mass # Reduced mass of the binary system
     r_norm = np.linalg.norm(r_rel, axis=1).reshape(-1, 1)
-    eccentricity_vector = np.mean((np.cross(v_rel, h_vec) / reduced_mass) - (r_rel / r_norm), axis=0)
+    eccentricity_vector = np.mean((np.cross(v_rel, h_vec) / mu) - (r_rel / r_norm), axis=0)
 
     # Calculate the argument of periapsis
     norm_e = np.linalg.norm(eccentricity_vector)
     norm_long = np.linalg.norm(longitude_of_ascending_node_vector)
 
-    if norm_e < 1e-12 or norm_long <1e-12:
-        current_argument_of_periapsis = 0.0 # e≈0 or Ω undefined, handle near-zero norms
+    if norm_e < 1e-12 and norm_long <1e-12:
+        current_argument_of_periapsis = 0.0 
+    elif norm_e < 1e-12:
+        current_argument_of_periapsis = 0.0
+    elif norm_long < 1e-12:
+        cosine = np.dot(eccentricity_vector, (1,0,0)) / (norm_e)
+        cosine = np.clip(cosine, -1.0, 1.0) # Clamp cosine-argument to [-1 , 1]
+        current_argument_of_periapsis = np.arccos(cosine)
+
+        # sin() disambiguation
+        sin_argp = np.dot(np.cross((1, 0, 0), eccentricity_vector), h_unit)
+        # Flip angle if sin is negative
+        if sin_argp < 0:
+            current_argument_of_periapsis = 2 * np.pi - current_argument_of_periapsis
     else:
         cosine = np.dot(eccentricity_vector, longitude_of_ascending_node_vector) / (norm_e * norm_long)
         cosine = np.clip(cosine, -1.0, 1.0) # Clamp cosine-argument to [-1 , 1]
