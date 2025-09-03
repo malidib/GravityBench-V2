@@ -195,7 +195,7 @@ def geometry(file_name:str, random=False, translation=False, verification=False)
     r_norm = np.linalg.norm(r_rel, axis=1).reshape(-1, 1)
     G = 6.67430e-11 # Gravitational constant
     mu = G * total_mass # Standard gravitational parameter
-    eccentricity_vector = np.mean((np.cross(v_rel, h_vec) / mu) - (r_rel / r_norm), axis=0)
+    eccentricity_vector = np.mean((np.cross(v_rel, h_vec) / mu) - (r_rel / r_norm), axis=0) 
 
     # Get inclination difference
     inc_diff = inclination - current_inclination
@@ -352,7 +352,7 @@ def geometry(file_name:str, random=False, translation=False, verification=False)
     elif norm_e < 1e-12:
         current_argument_of_periapsis = 0.0
     elif norm_long < 1e-12:
-        cosine = np.dot(eccentricity_vector, (1,0,0)) / (norm_e)
+        cosine = np.dot(eccentricity_vector, (1,0,0)) / (norm_e) # Reference direction is positive x-axis
         cosine = np.clip(cosine, -1.0, 1.0) # Clamp cosine-argument to [-1 , 1]
         current_argument_of_periapsis = np.arccos(cosine)
 
