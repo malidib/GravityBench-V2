@@ -290,7 +290,7 @@ def get_scenario(scenario_name, variation_name, row_wise=False,
         base_variation_name = variation_name.split(';')[0]
         scenario = scenario_module.Scenario(BinaryScenario(variation_name, star1_mass = star1_m, star2_mass=star2_m,
                                                         star1_pos=[star1_x, star1_y, star1_z], star2_pos=[star2_x, star2_y, star2_z],
-                                                        ellipticity=e, projection=variations[base_variation_name].projection), # variations[base_variation_name].projection checks the base case whether it wants projection
+                                                        ellipticity=e, units=variations[base_variation_name].units, projection=variations[base_variation_name].projection, ), # variations[base_variation_name].projection checks the base case whether it wants projection
                                             skip_simulation=skip_simulation) # Then run the BinaryScenario with the variation_name and the masses
 
     # Else they can get the variation from the preconfigured variation
@@ -313,3 +313,4 @@ def get_scenario_test_new_variation(scenario_name, new_variation, scenario_folde
     return importlib.import_module(
         f"{scenario_folder}.{scenario_name}"
     ).Scenario(new_variation)
+

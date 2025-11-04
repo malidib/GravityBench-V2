@@ -6,7 +6,10 @@ import re
 import ast
 import ast
 import argparse
+import sys
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import scripts.scenarios_config as scenarios_config
+
 
 def geometry(file_name:str, random=False, translation=False, verification=False):
     """
@@ -52,7 +55,7 @@ def geometry(file_name:str, random=False, translation=False, verification=False)
 
     # Check the filename whether the base variations exists, if not simulate the variation
     col = [' Inc', 'Long', 'Arg', 'Trans']
-    
+
     if any(sub in file_name for sub in col):
         base_variation_name = file_name.split(';')[0]
     else:
@@ -61,7 +64,7 @@ def geometry(file_name:str, random=False, translation=False, verification=False)
     # Determine if the base simulation should be skipped
     sim_csv_file_path = f"scenarios/sims/{base_variation_name}.csv"
     detailed_sim_csv_file_path = f"scenarios/detailed_sims/{base_variation_name}.csv"
-    
+
     skip_simulation = os.path.exists(sim_csv_file_path) and os.path.exists(detailed_sim_csv_file_path)
 
     if not skip_simulation:
@@ -73,6 +76,7 @@ def geometry(file_name:str, random=False, translation=False, verification=False)
 
     # Read the csv file
     df = pd.read_csv(detailed_sim_csv_file_path)
+    df = df.astype('float64')
 
     # Find the center of mass of the binary system
     # Get masses for COM calculation
@@ -84,12 +88,11 @@ def geometry(file_name:str, random=False, translation=False, verification=False)
     df['COMy'] = (m1*df['star1_y'] + m2*df['star2_y'])/total_mass
     df['COMz'] = (m1*df['star1_z'] + m2*df['star2_z'])/total_mass
 
-    COMx = df['COMx'].mean()
-    COMy = df['COMy'].mean()
-    COMz = df['COMz'].mean()
-
     # Check if random orientation is wanted
     if random:
+        COMx = df['COMx'].mean() * 1e-6
+        COMy = df['COMy'].mean() * 1e-6
+        COMz = df['COMz'].mean() * 1e-6
         if translation == True:
             # Random translation in x, y, z with range from (-COM, COM)
             translation_x = np.random.uniform(-COMx, COMx)
@@ -97,9 +100,9 @@ def geometry(file_name:str, random=False, translation=False, verification=False)
             translation_z = np.random.uniform(-COMz, COMz)
         else:
             # Else set it to zero
-            translation_x = 0
-            translation_y = 0
-            translation_z = 0
+            translation_x = 0.0
+            translation_y = 0.0
+            translation_z = 0.0
 
         # Random inclination about the xy plane, longitude of ascending node about positive x-axis, and argument of periapsis
         inclination = np.random.uniform(0, np.pi)  # Random inclination between 0 and pi
@@ -115,9 +118,9 @@ def geometry(file_name:str, random=False, translation=False, verification=False)
             geometry_name = file_split[-2].strip().split('_')
         else: 
             geometry_name = file_split[-1].strip().split('_')
-            translation_x = 0
-            translation_y = 0
-            translation_z = 0
+            translation_x = 0.0
+            translation_y = 0.0
+            translation_z = 0.0
 
         index = 1
         # By following the order Inc, Long, Arg, the index will correctly correspond to whichever is wanted
@@ -146,15 +149,6 @@ def geometry(file_name:str, random=False, translation=False, verification=False)
     if argument_of_periapsis < 0 or argument_of_periapsis > 2*np.pi:
         raise ValueError(f"Argument of periapsis out of bounds, it is inputed as {argument_of_periapsis}. Try to keep it within [0, 2*pi]")
 
-    # Check if file exists
-    transformed_filename = f"{base_variation_name}; Inc_{inclination:.2f}_Long_{longitude_of_ascending_node:.2f}_Arg_{argument_of_periapsis:.2f}; Trans_[{translation_x:.2g}, {translation_y:.2g}, {translation_z:.2g}]"
-    sim_csv_file_path = f"scenarios/sims/{transformed_filename}.csv"
-    detailed_sim_csv_file_path = f"scenarios/detailed_sims/{transformed_filename}.csv"
-
-    if os.path.exists(sim_csv_file_path) and os.path.exists(detailed_sim_csv_file_path):
-        print(f"INTERNAL: Simulation data for {transformed_filename} already exists, skipping simulation.")
-        return transformed_filename
-
     # Apply translation to positions
     df['star1_x'] += translation_x
     df['star1_y'] += translation_y
@@ -166,187 +160,168 @@ def geometry(file_name:str, random=False, translation=False, verification=False)
     df['COMy'] += translation_y
     df['COMz'] += translation_z
 
+    translation = np.array([translation_x, translation_y, translation_z])
+
     # Get the current inclination, longitude of ascending node, and argument of periapsis
     current_inclination = df['inclination'].iloc[0]
     current_longitude_of_ascending_node = df['longitude_of_ascending_node'].iloc[0]
     current_argument_of_periapsis = df['argument_of_periapsis'].iloc[0]
 
-    # Apply inclination using Rodrigues' rotation matrix, this done through rotation about the eccentricity vector
+    # Get Gravitational constant
+    units = scenarios_config.variations[base_variation_name].units
+    if units == ('yr', 'AU', 'Msun'):
+        # Astronomical units: AU^3 / (Msun * yr^2)
+        G = 4 * np.pi**2
+    elif units == ('s', 'cm', 'g'):
+        # CGS units: cm^3 / (g * s^2)
+        G = 6.67430e-8  
+    else:  # Default SI units
+        # SI units: m^3 / (kg * s^2)
+        G = 6.67430e-11
+
+    # Find the original star position for the variation setup
+    star1_pos = np.array(scenarios_config.variations[base_variation_name].star1_pos)
+    star2_pos = np.array(scenarios_config.variations[base_variation_name].star2_pos)
+
+    # Apply translation to COM_vec
+    star1_pos += translation
+    star2_pos += translation
+
+    # Find the COM vector
+    COM_vec = np.array([(m1*star1_pos[0] + m2*star2_pos[0])/total_mass, (m1*star1_pos[1] + m2*star2_pos[1])/total_mass, (m1*star1_pos[2] + m2*star2_pos[2])/total_mass])
+
+    # Call the necessary parameters from the variations base setup
+    modified_exponent = scenarios_config.variations[base_variation_name].mod_gravity_exponent or 2
+    ellipticity = scenarios_config.variations[base_variation_name].ellipticity
+    proper_motion_direction = scenarios_config.variations[base_variation_name].proper_motion_direction
+    proper_motion_magnitude = scenarios_config.variations[base_variation_name].proper_motion_magnitude
+
+    # Calculate base orbital velocity
+    relative_position = star2_pos - star1_pos
+    r = np.linalg.norm(relative_position)
+    orbital_velocity = np.sqrt(G * total_mass / r**(modified_exponent - 1))
+
+    # Determine orbital plane direction
+    if relative_position[0] != 0 or relative_position[1] != 0:
+        velocity_direction = np.cross(relative_position, [0, 0, 1])  # z-axis
+    else:
+        velocity_direction = np.cross(relative_position, [0, 1, 0])  # y-axis
+    velocity_direction = velocity_direction.astype(float)
+    velocity_direction /= np.linalg.norm(velocity_direction)
+
+    # Add eccentricity component
+    radial_direction = relative_position / r
+    velocity_radial = radial_direction * (orbital_velocity * ellipticity)
+    velocity_total = velocity_direction * orbital_velocity + velocity_radial
+
+    # Mass-weighted velocity distribution
+    star2_velocity = np.array(velocity_total * (m1 / total_mass))
+    star1_velocity = np.array(-velocity_total * (m2 / total_mass))
+
+    if scenarios_config.variations[base_variation_name].proper_motion_magnitude is not None:
+        # Add proper motion velocity component
+        if proper_motion_magnitude > 0:
+            if proper_motion_direction is None:
+                proper_motion_dir = np.array([1.0, 1.0, 0.0])
+            else:
+                proper_motion_dir = np.array(proper_motion_direction, dtype=float)
+            proper_motion_dir /= np.linalg.norm(proper_motion_dir)
+            proper_motion_velocity = proper_motion_dir * proper_motion_magnitude
+            df[['star1_vx', 'star1_vy', 'star1_vz']] -= proper_motion_velocity
+            df[['star2_vx', 'star2_vy', 'star2_vz']] -= proper_motion_velocity
+
+    # Apply inclination using Rodrigues' rotation matrix
     # Find the relative position and velocity
-    r_rel = np.stack([
-        df['star2_x'] - df['star1_x'],
-        df['star2_y'] - df['star1_y'],
-        df['star2_z'] - df['star1_z']
-    ], axis=1)
+    r_rel = star2_pos - star1_pos
+    v_rel = star2_velocity - star1_velocity
 
-    v_rel = np.stack([
-        df['star2_vx'] - df['star1_vx'],
-        df['star2_vy'] - df['star1_vy'],
-        df['star2_vz'] - df['star1_vz']
-    ], axis=1)
-
-    # Find the mean eccentricity vector
     # Find specific angular momentum unit vector
-    h_vec = np.cross(r_rel, v_rel)  # Specific angular momentum vector (Shape: (N, 3))
-    h_avg = h_vec.mean(axis=0)  # shape: (3,)
-    h_unit = h_avg / np.linalg.norm(h_avg)
+    h_vec = np.cross(r_rel, v_rel)
+    h_unit = h_vec / np.linalg.norm(h_vec)
 
-    # Calculate the eccentricity vector
-    r_norm = np.linalg.norm(r_rel, axis=1).reshape(-1, 1)
-    G = 6.67430e-11 # Gravitational constant
-    mu = G * total_mass # Standard gravitational parameter
-    eccentricity_vector = np.mean((np.cross(v_rel, h_vec) / mu) - (r_rel / r_norm), axis=0) 
+    # Find the inclination rotation axis
+    inclination_rotation_axis = np.cross([0, 0, 1], h_unit)
+    if np.linalg.norm(inclination_rotation_axis) < 1e-12 and (h_unit[2] > 0):
+        inclination_rotation_axis = np.cross(COM_vec, [0, 0, 1])
+    elif (np.linalg.norm(inclination_rotation_axis) < 1e-12) and (h_unit[2] < 0):
+        inclination_rotation_axis = np.cross(COM_vec, [0, 0, -1])
+
+    # If COM_vec parallel to the z-axis, we consider a fall-back
+    if (np.linalg.norm(inclination_rotation_axis) < 1e-12) and (h_unit[2] > 0):
+        inclination_rotation_axis = np.array([0, -1, 0])
+    elif (np.linalg.norm(inclination_rotation_axis) < 1e-12) and (h_unit[2] < 0):
+        inclination_rotation_axis = np.array([0, 1, 0])
 
     # Get inclination difference
     inc_diff = inclination - current_inclination
 
     # Perform the inclination rotation along the eccentricity vector
-    R = rotate_about_axis(eccentricity_vector, inc_diff)
+    R_inc = rotate_about_axis(inclination_rotation_axis, inc_diff)
 
-    # Apply inclination Rodrigues' rotation formula to the star position
-    rel_star1 = np.stack([
-        df['star1_x'] - df['COMx'],
-        df['star1_y'] - df['COMy'],
-        df['star1_z'] - df['COMz']], axis = 1)  # Relative position of star1 from COM (Shape: (N, 3))
+    rel_star1 = star1_pos - COM_vec  # Relative position of star1 from COM
+    rel_star2 = star2_pos - COM_vec  # Relative position of star2 from COM
 
-    rel_star2 = np.stack([
-        df['star2_x'] - df['COMx'],
-        df['star2_y'] - df['COMy'],
-        df['star2_z'] - df['COMz']], axis = 1)  # Relative position of star2 from COM (Shape: (N, 3))
-
-    rotated_rel_star1 = rel_star1 @ R.T # Rotated relative position of star1 (Shape: (3, N))
-    rotated_rel_star2 = rel_star2 @ R.T # Rotated relative position of star2 (Shape: (3, N))
-
-    # Update the datafame, with the original COM added back
-    df['star1_x'] = rotated_rel_star1[:, 0] + df['COMx']
-    df['star1_y'] = rotated_rel_star1[:, 1] + df['COMy']
-    df['star1_z'] = rotated_rel_star1[:, 2] + df['COMz']
-    df['star2_x'] = rotated_rel_star2[:, 0] + df['COMx']
-    df['star2_y'] = rotated_rel_star2[:, 1] + df['COMy']
-    df['star2_z'] = rotated_rel_star2[:, 2] + df['COMz']
+    star1_pos = rel_star1 @ R_inc.T + COM_vec  # Rotated relative position of star1
+    star2_pos = rel_star2 @ R_inc.T + COM_vec  # Rotated relative position of star2
 
     # Apply inclination Rodrigues' rotation formula to the star velocities
-    vel_star1 = np.stack([
-        df['star1_vx'],
-        df['star1_vy'],
-        df['star1_vz']
-    ], axis=1)
+    star1_velocity = star1_velocity @ R_inc.T  # Rotated velocity of star1
+    star2_velocity = star2_velocity @ R_inc.T  # Rotated velocity of star1
 
-    vel_star2 = np.stack([
-        df['star2_vx'],
-        df['star2_vy'],
-        df['star2_vz']
-    ], axis=1)
-
-    rotated_vel_star1 = vel_star1 @ R.T
-    rotated_vel_star2 = vel_star2 @ R.T
-
-    # Update the datafame, with the original COM added back
-    df['star1_vx'] = rotated_vel_star1[:, 0]
-    df['star1_vy'] = rotated_vel_star1[:, 1]
-    df['star1_vz'] = rotated_vel_star1[:, 2]
-    df['star2_vx'] = rotated_vel_star2[:, 0]
-    df['star2_vy'] = rotated_vel_star2[:, 1]
-    df['star2_vz'] = rotated_vel_star2[:, 2]
 
     # Apply longitude of ascending node using Rodrigues' rotation formula
-    # Check for current longitude of ascending node
     # Get new relative position and velocities
-    r_rel = np.stack([
-        df['star2_x'] - df['star1_x'],
-        df['star2_y'] - df['star1_y'],
-        df['star2_z'] - df['star1_z']
-    ], axis=1)
-
-    v_rel = np.stack([
-        df['star2_vx'] - df['star1_vx'],
-        df['star2_vy'] - df['star1_vy'],
-        df['star2_vz'] - df['star1_vz']
-    ], axis=1)
+    r_rel = star2_pos - star1_pos
+    v_rel = star2_velocity - star1_velocity
 
     # Calculate the new specific angular momentum vector
     h_vec = np.cross(r_rel, v_rel)
-    h_avg = h_vec.mean(axis=0)
-    h_unit = h_avg / np.linalg.norm(h_avg)  # Normalize the specific angular momentum vector
+    h_unit = h_vec / np.linalg.norm(h_vec)  # Normalize the specific angular momentum vector
 
+    # Find the current longitude of ascending node
     n = np.cross([0, 0, 1], h_unit)
-    current_longitude_of_ascending_node = np.arctan2(n[1], n[0])
+    if np.linalg.norm(n) < 1e-12:
+        current_longitude_of_ascending_node = 0
+        longitude_of_ascending_node = 0
+    else:
+        current_longitude_of_ascending_node = np.arctan2(n[1], n[0])
 
     # Calculate the Rodrigues' rotation matrix for longitude of ascending node
-    R = rotate_about_axis([0, 0, 1], longitude_of_ascending_node - current_longitude_of_ascending_node)  # Rotate about z-axis of the COM of the binary system
-    
+    R_long = rotate_about_axis([0, 0, 1], longitude_of_ascending_node - current_longitude_of_ascending_node)  # Rotate about z-axis of the COM of the binary system
+
     # Apply longitude of ascending node Rodrigues' rotation formula to the star position
-    rel_star1 = np.stack([
-        df['star1_x'] - df['COMx'],
-        df['star1_y'] - df['COMy'],
-        df['star1_z'] - df['COMz']], axis = 1)  # Relative position of star1 from COM (Shape: (N, 3))
-    
-    rel_star2 = np.stack([
-        df['star2_x'] - df['COMx'],
-        df['star2_y'] - df['COMy'],
-        df['star2_z'] - df['COMz']], axis = 1)  # Relative position of star2 from COM (Shape: (N, 3))
+    rel_star1 = star1_pos - COM_vec  # Relative position of star1 from COM
+    rel_star2 = star2_pos - COM_vec  # Relative position of star2 from COM
 
-    rotated_rel_star1 = rel_star1 @ R.T # Rotated relative position of star1 (Shape: (3, N))
-    rotated_rel_star2 = rel_star2 @ R.T # Rotated relative position of star2 (Shape: (3, N))
-
-    df['star1_x'] = rotated_rel_star1[:, 0] + df['COMx']
-    df['star1_y'] = rotated_rel_star1[:, 1] + df['COMy']
-    df['star1_z'] = rotated_rel_star1[:, 2] + df['COMz']
-    df['star2_x'] = rotated_rel_star2[:, 0] + df['COMx']
-    df['star2_y'] = rotated_rel_star2[:, 1] + df['COMy']
-    df['star2_z'] = rotated_rel_star2[:, 2] + df['COMz']
+    star1_pos = rel_star1 @ R_long.T + COM_vec # Rotated relative position of star1
+    star2_pos = rel_star2 @ R_long.T + COM_vec # Rotated relative position of star2
 
     # Apply longitude of ascending node Rodrigues' rotation formula to the star velocities
-    vel_star1 = np.stack([
-        df['star1_vx'],
-        df['star1_vy'],
-        df['star1_vz']
-    ], axis=1)
+    star1_velocity = star1_velocity @ R_long.T # Rotated velocity of star1
+    star2_velocity = star2_velocity @ R_long.T # Rotated velocity of star1
 
-    vel_star2 = np.stack([
-        df['star2_vx'],
-        df['star2_vy'],
-        df['star2_vz']
-    ], axis=1)
-
-    rotated_vel_star1 = vel_star1 @ R.T
-    rotated_vel_star2 = vel_star2 @ R.T
-
-    df['star1_vx'] = rotated_vel_star1[:, 0]
-    df['star1_vy'] = rotated_vel_star1[:, 1]
-    df['star1_vz'] = rotated_vel_star1[:, 2]
-    df['star2_vx'] = rotated_vel_star2[:, 0]
-    df['star2_vy'] = rotated_vel_star2[:, 1]
-    df['star2_vz'] = rotated_vel_star2[:, 2]
 
     # Apply random argument of periapsis using Rodrigues' rotation formula
     # Calculate the eccentricity vector
-    r_rel = np.stack([
-        df['star2_x'] - df['star1_x'],
-        df['star2_y'] - df['star1_y'],
-        df['star2_z'] - df['star1_z']
-    ], axis=1)
-    
-    v_rel = np.stack([
-        df['star2_vx'] - df['star1_vx'],
-        df['star2_vy'] - df['star1_vy'],
-        df['star2_vz'] - df['star1_vz']
-    ], axis=1)  
+    r_rel = star2_pos - star1_pos
+    v_rel = star2_velocity - star1_velocity
 
     # Calculate the specific angular momentum vector
     h_vec = np.cross(r_rel, v_rel)
-    h_avg = h_vec.mean(axis=0)  # shape: (3,)
-    h_unit = h_avg / np.linalg.norm(h_avg)
+    h_unit = h_vec / np.linalg.norm(h_vec)
+
+    # Calculate the longitude of ascending node vector
     longitude_of_ascending_node_vector = np.cross([0, 0, 1], h_unit)
 
     # Calculate the eccentricity vector
-    r_norm = np.linalg.norm(r_rel, axis=1).reshape(-1, 1)
-    eccentricity_vector = np.mean((np.cross(v_rel, h_vec) / mu) - (r_rel / r_norm), axis=0)
+    mu = G * total_mass # Standard gravitational parameter
+    eccentricity_vector = (np.cross(v_rel, h_vec) / mu) - (r_rel/ np.linalg.norm(r_rel))
 
     # Calculate the argument of periapsis
     norm_e = np.linalg.norm(eccentricity_vector)
     norm_long = np.linalg.norm(longitude_of_ascending_node_vector)
 
+    # Special cases for finding the current argument of periapsis
     if norm_e < 1e-12 and norm_long <1e-12:
         current_argument_of_periapsis = 0.0 
     elif norm_e < 1e-12:
@@ -363,7 +338,7 @@ def geometry(file_name:str, random=False, translation=False, verification=False)
             current_argument_of_periapsis = 2 * np.pi - current_argument_of_periapsis
     else:
         cosine = np.dot(eccentricity_vector, longitude_of_ascending_node_vector) / (norm_e * norm_long)
-        cosine = np.clip(cosine, -1.0, 1.0) # Clamp cosine-argument to [-1 , 1]
+        cosine = np.clip(cosine, -1.0, 1.0) # Clamp cosine-argument to [-1, 1]
         current_argument_of_periapsis = np.arccos(cosine)
 
         # sin() disambiguation
@@ -373,68 +348,92 @@ def geometry(file_name:str, random=False, translation=False, verification=False)
             current_argument_of_periapsis = 2 * np.pi - current_argument_of_periapsis
 
     # Calculate the argument of periapsis Rodrigues' rotation matrix 
-    R = rotate_about_axis(h_unit, argument_of_periapsis - current_argument_of_periapsis) # Rotational matrix about the normal axis of the orbital plane
+    R_arg = rotate_about_axis(h_unit, argument_of_periapsis - current_argument_of_periapsis) # Rotational matrix about the normal axis of the orbital plane
 
     # Apply Rodrigues' rotation formula to the star position with random argument of periapsis
-    rel_star1 = np.stack([
-        df['star1_x'] - df['COMx'],
-        df['star1_y'] - df['COMy'],
-        df['star1_z'] - df['COMz']], axis = 1)  # Relative position of star1 from COM (Shape: (N, 3))
-    
-    rel_star2 = np.stack([
-        df['star2_x'] - df['COMx'],
-        df['star2_y'] - df['COMy'],
-        df['star2_z'] - df['COMz']], axis = 1)  # Relative position of star2 from COM (Shape: (N, 3))
+    rel_star1 = star1_pos - COM_vec  # Relative position of star1 from COM
+    rel_star2 = star2_pos - COM_vec  # Relative position of star2 from COM
 
-    rotated_rel_star1 = rel_star1 @ R.T # Rotated relative position of star1 (Shape: (N, 3))
-    rotated_rel_star2 = rel_star2 @ R.T # Rotated relative position of star2 (Shape: (N, 3))
+    star1_pos = rel_star1 @ R_arg.T + COM_vec # Rotated relative position of star1
+    star2_pos = rel_star2 @ R_arg.T + COM_vec # Rotated relative position of star2
 
-    df['star1_x'] = rotated_rel_star1[:, 0] + df['COMx']
-    df['star1_y'] = rotated_rel_star1[:, 1] + df['COMy']
-    df['star1_z'] = rotated_rel_star1[:, 2] + df['COMz']
-    df['star2_x'] = rotated_rel_star2[:, 0] + df['COMx']
-    df['star2_y'] = rotated_rel_star2[:, 1] + df['COMy']
-    df['star2_z'] = rotated_rel_star2[:, 2] + df['COMz']
+    # Apply argument of periapsis Rodrigues' rotation formula to the star velocities
+    star1_velocity = star1_velocity @ R_arg.T # Rotated velocity of star1
+    star2_velocity = star2_velocity @ R_arg.T # Rotated velocity of star2
 
-    # Apply Rodrigues' rotation formula for the star velocities with random argument of periapsis
-    vel_star1 = np.stack([
-        df['star1_vx'],
-        df['star1_vy'],
-        df['star1_vz']
-    ], axis=1)
-
-    vel_star2 = np.stack([
-        df['star2_vx'],
-        df['star2_vy'],
-        df['star2_vz']
-    ], axis=1)
-
-    rotated_vel_star1 = vel_star1 @ R.T
-    rotated_vel_star2 = vel_star2 @ R.T
-
-    df['star1_vx'] = rotated_vel_star1[:, 0]
-    df['star1_vy'] = rotated_vel_star1[:, 1]
-    df['star1_vz'] = rotated_vel_star1[:, 2]
-    df['star2_vx'] = rotated_vel_star2[:, 0]
-    df['star2_vy'] = rotated_vel_star2[:, 1]
-    df['star2_vz'] = rotated_vel_star2[:, 2]
-    
-    # Note: We can cut down the computation as the rebound simulation takes only the first row data, leaving the rest unnecessary.
-    
     # Rebound setup and verification
     sim = rebound.Simulation()
-    # sim.integrator = "whfast"
-    sim.units = ('m', 's', 'kg')  # Set units to SI units
-    
+
+    # Set gravitational constant based on unit system
+    sim.G = G
+
+    # Set units to SI units
+    sim.units = units
+
+    if scenarios_config.variations[base_variation_name].proper_motion_magnitude is not None:
+        # Add proper motion velocity component
+        if proper_motion_magnitude > 0:
+            if proper_motion_direction is None:
+                proper_motion_dir = np.array([1.0, 1.0, 0.0])
+            else:
+                proper_motion_dir = np.array(proper_motion_direction, dtype=float)
+            proper_motion_dir /= np.linalg.norm(proper_motion_dir)
+            proper_motion_velocity = proper_motion_dir * proper_motion_magnitude
+            star1_velocity += proper_motion_velocity
+            star2_velocity += proper_motion_velocity
+            df[['star1_vx', 'star1_vy', 'star1_vz']] += proper_motion_velocity
+            df[['star2_vx', 'star2_vy', 'star2_vz']] += proper_motion_velocity
+
+    # Configure drag forces if specified
+    drag_tau = scenarios_config.variations[base_variation_name].drag_tau
+    if drag_tau is not None:
+        sim.integrator = "ias15"  # Switch to adaptive integrator for non-conservative forces
+        def apply_linear_drag(sim, particles, N=2):
+            """Apply velocity-dependent linear drag force"""
+            for i in range(N):
+                particles[i].ax -= particles[i].vx / drag_tau
+                particles[i].ay -= particles[i].vy / drag_tau
+                particles[i].az -= particles[i].vz / drag_tau
+        sim.additional_forces = lambda reb_sim: apply_linear_drag(reb_sim, sim.particles)
+        sim.force_is_velocity_dependent = 1  # Required for velocity-dependent forces
+
+    # Configure modified gravity if specified
+    mod_gravity_exponent = scenarios_config.variations[base_variation_name].mod_gravity_exponent
+    if mod_gravity_exponent is not None:
+        sim.integrator = "ias15"  # Adaptive integrator for non-Newtonian forces
+        def mod_gravity(reb, particles, N, mod_gravity_exponent):
+            """Custom force implementation for modified gravity"""
+            for i in range(N):
+                for j in range(i+1, N):
+                    # Calculate separation vector
+                    dx = particles[j].x - particles[i].x
+                    dy = particles[j].y - particles[i].y
+                    dz = particles[j].z - particles[i].z
+                    r = np.sqrt(dx**2 + dy**2 + dz**2)
+                    # Modified gravity force: F ∝ 1/r^mod_gravity_exponent
+                    F = sim.G * particles[i].m * particles[j].m / r**mod_gravity_exponent
+                    # Apply forces to both particles
+                    particles[i].ax = F * dx / (particles[i].m * r)
+                    particles[i].ay = F * dy / (particles[i].m * r)
+                    particles[i].az = F * dz / (particles[i].m * r)
+                    particles[j].ax = -F * dx / (particles[j].m * r)
+                    particles[j].ay = -F * dy / (particles[j].m * r)
+                    particles[j].az = -F * dz / (particles[j].m * r)
+        sim.additional_forces = lambda reb: mod_gravity(reb, sim.particles, N=2, mod_gravity_exponent=mod_gravity_exponent)
+
+
     # Add stars with initial conditions from the new tranformed DataFrame
-    sim.add(m=df['star1_mass'].iloc[0], x=df['star1_x'].iloc[0], y=df['star1_y'].iloc[0], z=df['star1_z'].iloc[0], 
-            vx=df['star1_vx'].iloc[0], vy=df['star1_vy'].iloc[0], vz=df['star1_vz'].iloc[0])
-    sim.add(m=df['star2_mass'].iloc[0], x=df['star2_x'].iloc[0], y=df['star2_y'].iloc[0], z=df['star2_z'].iloc[0],
-            vx=df['star2_vx'].iloc[0], vy=df['star2_vy'].iloc[0], vz=df['star2_vz'].iloc[0])
+    sim.add(m=m1, x=star1_pos[0], y=star1_pos[1], z=star1_pos[2], 
+            vx=star1_velocity[0], vy=star1_velocity[1], vz=star1_velocity[2])
+    sim.add(m=m2, x=star2_pos[0], y=star2_pos[1], z=star2_pos[2], 
+            vx=star2_velocity[0], vy=star2_velocity[1], vz=star2_velocity[2])
         
     # Record the simulation data
     rows = []
-    for t in df['time'].values:
+    tvals = np.asarray(df['time'].values, dtype=np.float64)
+    sim.t = 0
+
+    for t in tvals:
         sim.integrate(t)  # Integrate the simulation to the current time
         p1 = sim.particles[0]
         p2 = sim.particles[1]
@@ -475,29 +474,19 @@ def geometry(file_name:str, random=False, translation=False, verification=False)
     with open(csv_file_sims, mode='w', newline='') as file_sims:
         sim_df[['time', 'star1_x', 'star1_y', 'star1_z', 'star2_x', 'star2_y', 'star2_z']].to_csv(file_sims, index=False)
 
+    if verification == True:
+        cols = ['star1_x', 'star1_y', 'star1_z', 'star2_x', 'star2_y', 'star2_z']
+        print(f"Expected inc: {inclination}, Actual inc: {sim_df['inclination'].iloc[0]} \nExpected long: {longitude_of_ascending_node}, Actual long: {sim_df['longitude_of_ascending_node'].iloc[0]}, \nExpected argument_of_periapsis: {argument_of_periapsis}, Actual argument_of_periapsis: {sim_df['argument_of_periapsis'].iloc[0]}")
+        for i in np.linspace(0, len(df)-1, num=1000, dtype=int):
+            df_row = df.loc[i, cols].to_numpy()
+            test_row = sim_df.loc[i, cols].to_numpy()
+            assert np.allclose(df_row, test_row, rtol=1e-6), (
+                f"Row {i} differs by more than rtol=1e-6:\n"
+                f"abs diff = {np.abs(df_row - test_row)} \n"
+                f"{df_row}, {test_row}, {csv_file_sims} \n"
+                f"Expected inc: {inclination}, Actual inc: {sim_df['inclination'].iloc[0]} \nExpected long: {longitude_of_ascending_node}, Actual long: {sim_df['longitude_of_ascending_node'].iloc[0]}, \nExpected argument_of_periapsis: {argument_of_periapsis}, Actual argument_of_periapsis: {sim_df['argument_of_periapsis'].iloc[0]}")
 
-    # Check for verificaiton
-    if verification:
-        # Check for each row that the difference between simulated data and rotated data are not bigger than the threshold
-        # However, what we notice is a sensitivity to initial condition, where the difference grows larger and larger, however usually within the threshold 
-        # of 1000. It also depends on the magnitude of initial conditions, where the difference in simulated and rotated data are usually insignificant in
-        # orders of magnitude.  We can also just check the final value, since it is the final value that should be the largest in difference.
-        max_diff = 0
-        threshold_value = 1000
-        for i in range(len(df)):
-            df_row = df.iloc[i]
-            test_row = sim_df.iloc[i]
-            current_max_diff = max(abs(df_row['star1_x'] - test_row['star1_x']), 
-                                   abs(df_row['star1_y'] - test_row['star1_y']),
-                                   abs(df_row['star1_z'] - test_row['star1_z']), 
-                                   abs(df_row['star2_x'] - test_row['star2_x']),
-                                   abs(df_row['star2_y'] - test_row['star2_y']), 
-                                   abs(df_row['star2_z'] - test_row['star2_z']),
-                                   )
-            if current_max_diff > max_diff:
-                max_diff = current_max_diff
-            assert max_diff <= threshold_value, f"Difference between points found to be more than {threshold_value}, at {i} row."
-
+            
     return f"{base_variation_name}; Inc_{inclination:.2f}_Long_{longitude_of_ascending_node:.2f}_Arg_{argument_of_periapsis:.2f}; Trans_[{translation_x:.2g}, {translation_y:.2g}, {translation_z:.2g}]"
 
 
@@ -609,7 +598,7 @@ def projection(obs_df, file_name: str, save=False):
     COMz = (m1*df['star1_z'].iloc[0] + m2*df['star2_z'].iloc[0])/total_mass
 
     COM_vec = np.array([COMx, COMy, COMz])
-    COM_unit_vec = COM_vec / np.linalg.norm(COM_vec)  # Normal unit vector to the plane
+    COM_unit_vec = unit(COM_vec) # Normal unit vector to the plane
 
     star1_coord = np.vstack([obs_df['star1_x'], obs_df['star1_y'], obs_df['star1_z']])  # (3, N)
     star2_coord = np.vstack([obs_df['star2_x'], obs_df['star2_y'], obs_df['star2_z']])
@@ -625,35 +614,18 @@ def projection(obs_df, file_name: str, save=False):
     obs_df['star1_x'], obs_df['star1_y'], obs_df['star1_z'] = star1_pro
     obs_df['star2_x'], obs_df['star2_y'], obs_df['star2_z'] = star2_pro
 
-    # Calculate the right ascension
-    dot = np.dot([COMx, COMy, 0], [1, 0, 0])
-    na = np.linalg.norm([COMx, COMy, 0])
-    nb = np.linalg.norm([1, 0, 0])
-    
-    right_ascension = np.arccos(dot/(na * nb))
+    z = np.array([0.0, 0.0, 1.0])
 
-    # Check for sign ambiguity, np.arccos is between [0, pi]. We want a counterclockwise angle from [0, 2*pi] from positive x-axis
-    if COMy < 0:
-        right_ascension = 2*np.pi - right_ascension
+    # If nhat ~ +/- z, fallback to y as 'north' source to avoid degeneracy
+    # This is the case when the los points directly upwards along z, then take 
+    # positive y as north
 
-    rotate_to_y = np.pi/2 - right_ascension
-
-    # Calculate the declination, np.arctan2 returns [-pi, pi]
-    dec = np.arcsin(COM_unit_vec[2])
-
-    # Then apply rodrigues formula to rotate the projected plane onto xy axis
-    Rz = rotate_about_axis((0, 0, 1), rotate_to_y) # Rodrigues matrix rotate counter-clockwise
-
-    # Sign disambiguition, 2 cases: (The COM unit vector points above or below the positive y-axis after first rotation)
-    # Case 1: COMz != 0, then rotate counterclockwise about (1, 0, 0)
-    # Case 2: COMz = 0, set the rotation angle to be np.pi/2
-    # In general, this will point plane unit vector vertically up or down to have a flat plane on xy
-    if COMz != 0:
-        Rx = rotate_about_axis((-1, 0, 0), (np.pi/2) + dec)
+    if abs(np.dot(z, COM_unit_vec)) > 1.0 - 1e-10:
+        y = np.array([0.0, 1.0, 0.0])
+        north = unit(y - np.dot(y, COM_unit_vec) * COM_unit_vec)
     else:
-        Rx = rotate_about_axis((-1, 0, 0), np.pi/2)
-
-    R = Rx @ Rz # First apply Rz then Rx
+        north = unit(z - np.dot(z, COM_unit_vec) * COM_unit_vec)
+    east = unit(np.cross(COM_unit_vec, north))
 
     pos_star1 = np.stack([
         obs_df['star1_x'],
@@ -665,19 +637,31 @@ def projection(obs_df, file_name: str, save=False):
         obs_df['star2_y'],
         obs_df['star2_z']], axis = 1)  # Relative position of star2 from COM (Shape: (N, 3))
     
-    rotated_star1 = pos_star1 @ R.T # Rotated relative position of star1 (Shape: (N, 3))
-    rotated_star2 = pos_star2 @ R.T # Rotated relative position of star2 (Shape: (N, 3))
+    x1prime = pos_star1 @ east
+    x2prime = pos_star2 @ east
+    y1prime = pos_star1 @ north
+    y2prime = pos_star2 @ north
 
-    obs_df['star1_x'] = rotated_star1[:, 0]
-    obs_df['star1_y'] = rotated_star1[:, 1]
-    obs_df['star1_z'] = rotated_star1[:, 2]
-    obs_df['star2_x'] = rotated_star2[:, 0]
-    obs_df['star2_y'] = rotated_star2[:, 1]
-    obs_df['star2_z'] = rotated_star2[:, 2]
-
-    # From here I can set obs_df['star1_z'] and obs_df['star2_z'] = 0.0. However, note that the z components are never exactly zero.
+    obs_df['star1_x'] = x1prime
+    obs_df['star1_y'] = y1prime
     obs_df['star1_z'] = 0.0
+    obs_df['star2_x'] = x2prime
+    obs_df['star2_y'] = y2prime
     obs_df['star2_z'] = 0.0
+
+    # Calculate the right ascension
+    dot = np.dot([COMx, COMy, 0], [1, 0, 0])
+    na = np.linalg.norm([COMx, COMy, 0])
+    nb = np.linalg.norm([1, 0, 0])
+    
+    right_ascension = np.arccos(dot/(na * nb))
+
+    # Check for sign ambiguity, np.arccos is between [0, pi]. We want a counterclockwise angle from [0, 2*pi] from positive x-axis
+    if COMy < 0:
+        right_ascension = 2*np.pi - right_ascension
+
+    # Calculate the declination, np.arctan2 returns [-pi, pi]
+    dec = np.arcsin(COM_unit_vec[2])
 
     # If want to save to a new file, write to a new folder 
     if save == True:
@@ -893,6 +877,16 @@ def rotate_about_axis(axis, theta):
 
     return R
 
+def unit(v):
+    """
+    Return the unit vector of input. Checks for zero magnitude errors.
+    """
+    v = np.asarray(v, dtype=float)
+    n = np.linalg.norm(v)
+    if n < 1e-12:
+        raise ValueError("Zero-length vector")
+    return v / n
+
 
 def main(reset_var=False):
     if reset_var:
@@ -911,4 +905,4 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    main(reset_var_json=args.reset)
+    main(reset_var=args.reset)
