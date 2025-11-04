@@ -1,0 +1,142 @@
+{
+  "21.3 M, 3.1 M": {
+    "name": "21.3 M, 3.1 M",
+    "m1": 21.3,
+    "m2": 3.1,
+    "r1": [-5e12, -7e12, 0],
+    "r2": [-3e12, -8e12, 0],
+    "ellipticity": 0.6
+  },
+  "9.6 M, 3.1 M": {
+    "name": "9.6 M, 3.1 M",
+    "m1": 9.6,
+    "m2": 3.1,
+    "r1": [-1e12, 6e12, 0],
+    "r2": [-1e12, 3e12, 0],
+    "ellipticity": 0.6
+  },
+  "0.18 M, 0.63 M": {
+    "name": "0.18 M, 0.63 M",
+    "m1": 0.18,
+    "m2": 0.63,
+    "r1": [7e11, 2e11, 0],
+    "r2": [2e11, 1e11, 0],
+    "ellipticity": 0.6
+  },
+  "9.6 M, 3.1 M, Proper Motion": {
+    "name": "9.6 M, 3.1 M, Proper Motion",
+    "m1": 9.6,
+    "m2": 3.1,
+    "r1": [4e12, 3e12, 0],
+    "r2": [2e12, 3e12, 0],
+    "ellipticity": 0.8,
+    "proper_motion_direction": [1, 1, 0],
+    "proper_motion_magnitude": 1000
+  },
+  "9.6 M, 3.1 M, Proper Motion2": {
+    "name": "9.6 M, 3.1 M, Proper Motion2",
+    "m1": 9.6,
+    "m2": 3.1,
+    "r1": [4e11, -4e11, 0],
+    "r2": [7e11, -6e11, 0],
+    "ellipticity": 0.9,
+    "proper_motion_direction": [2, -1, 0],
+    "proper_motion_magnitude": 1000
+  },
+  "9.6 M, 3.1 M, yrAUMsun": {
+    "name": "9.6 M, 3.1 M, yrAUMsun",
+    "m1": 9.6,
+    "m2": 3.1,
+    "r1": [-1e12, 6e12, 0],
+    "r2": [-1e12, 3e12, 0],
+    "ellipticity": 0.6,
+    "units": ["yr", "AU", "Msun"]
+  },
+  "9.6 M, 3.1 M, cgs": {
+    "name": "9.6 M, 3.1 M, cgs",
+    "m1": 9.6,
+    "m2": 3.1,
+    "r1": [-1e12, 6e12, 0],
+    "r2": [-1e12, 3e12, 0],
+    "ellipticity": 0.6,
+    "units": ["s", "cm", "g"]
+  },
+  "3.1 M, 0.18 M Elliptical": {
+    "name": "3.1 M, 0.18 M Elliptical",
+    "m1": 3.1,
+    "m2": 0.18,
+    "r1": [4e10, -4e10, 0],
+    "r2": [1.5e11, -7e10, 0],
+    "ellipticity": 0.93
+  },
+  "3.1 M, 0.18 M, Elliptical, Single Orbit": {
+    "name": "3.1 M, 0.18 M, Elliptical, Single Orbit",
+    "m1": 3.1,
+    "m2": 0.18,
+    "r1": [4e10, -4e10, 0],
+    "r2": [1.5e11, -7e10, 0],
+    "ellipticity": 0.93,
+    "num_orbits": 1
+  },
+  "7.7 M, 4.9 M, Drag tau = 1.7e9": {
+    "name": "7.7 M, 4.9 M, Drag tau = 1.7e9",
+    "m1": 7.7,
+    "m2": 4.9,
+    "r1": [1e11, 1e11, 0],
+    "r2": [1.5e11, 7e11, 0],
+    "ellipticity": 0.55,
+    "drag_tau": 1.7e9,
+    "maxtime": 7e8
+  },
+  "7.7 M, 4.9 M, Drag tau = 8.3e8": {
+    "name": "7.7 M, 4.9 M, Drag tau = 8.3e8",
+    "m1": 7.7,
+    "m2": 4.9,
+    "r1": [1e11, 1e11, 0],
+    "r2": [1.5e11, 7e11, 0],
+    "ellipticity": 0.55,
+    "drag_tau": 8.3e8,
+    "maxtime": 5e8
+  },
+  "7.7 M, 4.9 M, Drag tau = 8.3e8 Proper Motion": {
+    "name": "7.7 M, 4.9 M, Drag tau = 8.3e8 Proper Motion",
+    "m1": 7.7,
+    "m2": 4.9,
+    "r1": [1e11, 1e11, 0],
+    "r2": [1.5e11, 7e11, 0],
+    "ellipticity": 0.55,
+    "drag_tau": 8.3e8,
+    "maxtime": 5e8,
+    "proper_motion_direction": [1, 1, 0],
+    "proper_motion_magnitude": 10000
+  },
+  "10.1 M, 5.6 M, Unbound": {
+    "name": "10.1 M, 5.6 M, Unbound",
+    "m1": 10.1,
+    "m2": 5.6,
+    "r1": [-1e11, 7e11, 0],
+    "r2": [1.5e11, 7e10, 0],
+    "ellipticity": 1.5,
+    "maxtime": 1e8
+  },
+  "10.1M, 5.6 M, Modified Gravity 1.97": {
+    "name": "10.1M, 5.6 M, Modified Gravity 1.97",
+    "m1": 10.1,
+    "m2": 5.6,
+    "r1": [5e10, 1e11, 0],
+    "r2": [7.5e10, 3e10, 0],
+    "ellipticity": 0.8,
+    "maxtime": 9e7,
+    "mod_gravity_exponent": 1.97
+  },
+  "10.1M, 5.6 M, Modified Gravity 2.03": {
+    "name": "10.1M, 5.6 M, Modified Gravity 2.03",
+    "m1": 10.1,
+    "m2": 5.6,
+    "r1": [5e10, 1e11, 0],
+    "r2": [7.5e10, 3e10, 0],
+    "ellipticity": 0.8,
+    "maxtime": 2.3e8,
+    "mod_gravity_exponent": 2.03
+  }
+}
