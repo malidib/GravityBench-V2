@@ -500,7 +500,7 @@ if __name__ == "__main__":
     )
     parser.add_argument(
         '--variation', type=str,
-        help='Specific variation name to run (e.g., "21.3 M, 3.1 M")'
+        help='Specific variation name to run (e.g., "21.3 M, 3.1 M (Projected)")'
     )
     parser.add_argument(
         '--random-geometry', type=int, default=0,

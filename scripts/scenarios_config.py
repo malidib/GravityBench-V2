@@ -360,6 +360,28 @@ variations = {
                                                                                      projection=True),
 }
 
+
+def _validate_projection_pairs():
+    """Ensure that each base variation has a projected counterpart registered."""
+
+    missing_projected = []
+    for name in variations:
+        if name.endswith("(Projected)"):
+            continue
+        projected_name = f"{name} (Projected)"
+        if projected_name not in variations:
+            missing_projected.append((name, projected_name))
+
+    if missing_projected:
+        formatted = ", ".join(f"'{base}' -> '{projected}'" for base, projected in missing_projected)
+        raise ValueError(
+            "Missing projected variations for the following base configurations: "
+            f"{formatted}. Please ensure each base variation has a projected counterpart."
+        )
+
+
+_validate_projection_pairs()
+
 # Define scenarios with their variations
 #load scenarios_config.json
 with open('scripts/scenarios_config.json') as f:

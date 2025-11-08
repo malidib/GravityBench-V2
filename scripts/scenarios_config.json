@@ -1,613 +1,407 @@
 {
     "roche_lobe_radius": {
         "variations": [
-            "3.1 M, 0.18 M Elliptical",
             "3.1 M, 0.18 M Elliptical (Projected)"
         ]
     },
     "modified_gravity_power_law": {
         "variations": [
-            "10.1M, 5.6 M, Modified Gravity 1.97",
             "10.1M, 5.6 M, Modified Gravity 1.97 (Projected)",
-            "10.1M, 5.6 M, Modified Gravity 2.03",
             "10.1M, 5.6 M, Modified Gravity 2.03 (Projected)",
-            "10.1M, 5.6 M, Modified Gravity 1.97 Proper Motion",
             "10.1M, 5.6 M, Modified Gravity 1.97 Proper Motion (Projected)"
         ]
     },
     "linear_drag": {
         "variations": [
-            "7.7 M, 4.9 M, Drag tau = 1.7e9",
             "7.7 M, 4.9 M, Drag tau = 1.7e9 (Projected)",
-            "7.7 M, 4.9 M, Drag tau = 8.3e8",
             "7.7 M, 4.9 M, Drag tau = 8.3e8 (Projected)",
-            "7.7 M, 4.9 M, Drag tau = 8.3e8 Proper Motion",
             "7.7 M, 4.9 M, Drag tau = 8.3e8 Proper Motion (Projected)"
         ]
     },
     "time_fraction_acceleraton_below_mean": {
         "variations": [
-            "21.3 M, 3.1 M",
             "21.3 M, 3.1 M (Projected)",
-            "9.6 M, 3.1 M",
             "9.6 M, 3.1 M (Projected)",
-            "0.18 M, 0.63 M",
             "0.18 M, 0.63 M (Projected)"
         ]
     },
     "apoastron": {
         "variations": [
-            "21.3 M, 3.1 M",
             "21.3 M, 3.1 M (Projected)",
-            "9.6 M, 3.1 M",
             "9.6 M, 3.1 M (Projected)",
-            "0.18 M, 0.63 M",
             "0.18 M, 0.63 M (Projected)",
-            "9.6 M, 3.1 M, Proper Motion",
             "9.6 M, 3.1 M, Proper Motion (Projected)",
-            "9.6 M, 3.1 M, Proper Motion2",
             "9.6 M, 3.1 M, Proper Motion2 (Projected)"
         ]
     },
     "area_swept_over_time_apo": {
         "variations": [
-            "21.3 M, 3.1 M",
             "21.3 M, 3.1 M (Projected)",
-            "9.6 M, 3.1 M",
             "9.6 M, 3.1 M (Projected)",
-            "0.18 M, 0.63 M",
             "0.18 M, 0.63 M (Projected)"
         ]
     },
     "area_swept_over_time_peri": {
         "variations": [
-            "21.3 M, 3.1 M",
             "21.3 M, 3.1 M (Projected)",
-            "9.6 M, 3.1 M",
             "9.6 M, 3.1 M (Projected)",
-            "0.18 M, 0.63 M",
             "0.18 M, 0.63 M (Projected)"
         ]
     },
     "avg_distance_COM_star1": {
         "variations": [
-            "21.3 M, 3.1 M",
             "21.3 M, 3.1 M (Projected)",
-            "9.6 M, 3.1 M",
             "9.6 M, 3.1 M (Projected)",
-            "0.18 M, 0.63 M",
             "0.18 M, 0.63 M (Projected)"
         ]
     },
     "avg_distance_COM_star2": {
         "variations": [
-            "21.3 M, 3.1 M",
             "21.3 M, 3.1 M (Projected)",
-            "9.6 M, 3.1 M",
             "9.6 M, 3.1 M (Projected)",
-            "0.18 M, 0.63 M",
             "0.18 M, 0.63 M (Projected)"
         ]
     },
     "eccentricity": {
         "variations": [
-            "21.3 M, 3.1 M",
             "21.3 M, 3.1 M (Projected)",
-            "9.6 M, 3.1 M",
             "9.6 M, 3.1 M (Projected)",
-            "0.18 M, 0.63 M",
             "0.18 M, 0.63 M (Projected)",
-            "9.6 M, 3.1 M, Proper Motion",
             "9.6 M, 3.1 M, Proper Motion (Projected)",
-            "9.6 M, 3.1 M, Proper Motion2",
             "9.6 M, 3.1 M, Proper Motion2 (Projected)",
-            "3.1 M, 0.18 M Elliptical",
             "3.1 M, 0.18 M Elliptical (Projected)"
         ]
     },
     "kepler_3rd_law": {
         "variations": [
-            "21.3 M, 3.1 M",
             "21.3 M, 3.1 M (Projected)",
-            "9.6 M, 3.1 M",
             "9.6 M, 3.1 M (Projected)",
-            "0.18 M, 0.63 M",
             "0.18 M, 0.63 M (Projected)",
-            "10.1M, 5.6 M, Modified Gravity 1.97",
             "10.1M, 5.6 M, Modified Gravity 1.97 (Projected)",
-            "10.1M, 5.6 M, Modified Gravity 2.03",
             "10.1M, 5.6 M, Modified Gravity 2.03 (Projected)",
-            "10.1M, 5.6 M, Modified Gravity 1.97 Proper Motion",
             "10.1M, 5.6 M, Modified Gravity 1.97 Proper Motion (Projected)"
         ]
     },
     "mass_largest_star": {
         "variations": [
-            "21.3 M, 3.1 M",
             "21.3 M, 3.1 M (Projected)",
-            "9.6 M, 3.1 M",
             "9.6 M, 3.1 M (Projected)",
-            "0.18 M, 0.63 M",
             "0.18 M, 0.63 M (Projected)"
         ]
     },
     "max_acceleration_star1": {
         "variations": [
-            "21.3 M, 3.1 M",
             "21.3 M, 3.1 M (Projected)",
-            "9.6 M, 3.1 M",
             "9.6 M, 3.1 M (Projected)",
-            "0.18 M, 0.63 M",
             "0.18 M, 0.63 M (Projected)",
-            "9.6 M, 3.1 M, Proper Motion",
             "9.6 M, 3.1 M, Proper Motion (Projected)",
-            "9.6 M, 3.1 M, Proper Motion2",
             "9.6 M, 3.1 M, Proper Motion2 (Projected)"
         ]
     },
     "max_acceleration_star2": {
         "variations": [
-            "21.3 M, 3.1 M",
             "21.3 M, 3.1 M (Projected)",
-            "9.6 M, 3.1 M",
             "9.6 M, 3.1 M (Projected)",
-            "0.18 M, 0.63 M",
             "0.18 M, 0.63 M (Projected)"
         ]
     },
     "max_angular_velocity_star1": {
         "variations": [
-            "21.3 M, 3.1 M",
             "21.3 M, 3.1 M (Projected)",
-            "9.6 M, 3.1 M",
             "9.6 M, 3.1 M (Projected)",
-            "0.18 M, 0.63 M",
             "0.18 M, 0.63 M (Projected)",
-            "9.6 M, 3.1 M, Proper Motion",
             "9.6 M, 3.1 M, Proper Motion (Projected)",
-            "9.6 M, 3.1 M, Proper Motion2",
             "9.6 M, 3.1 M, Proper Motion2 (Projected)"
         ]
     },
     "max_angular_velocity_star2": {
         "variations": [
-            "21.3 M, 3.1 M",
             "21.3 M, 3.1 M (Projected)",
-            "9.6 M, 3.1 M",
             "9.6 M, 3.1 M (Projected)",
-            "0.18 M, 0.63 M",
             "0.18 M, 0.63 M (Projected)"
         ]
     },
     "max_momentum_star1": {
         "variations": [
-            "21.3 M, 3.1 M",
             "21.3 M, 3.1 M (Projected)",
-            "9.6 M, 3.1 M",
             "9.6 M, 3.1 M (Projected)",
-            "0.18 M, 0.63 M",
             "0.18 M, 0.63 M (Projected)",
-            "9.6 M, 3.1 M, Proper Motion",
             "9.6 M, 3.1 M, Proper Motion (Projected)",
-            "9.6 M, 3.1 M, Proper Motion2",
             "9.6 M, 3.1 M, Proper Motion2 (Projected)"
         ]
     },
     "max_momentum_star2": {
         "variations": [
-            "21.3 M, 3.1 M",
             "21.3 M, 3.1 M (Projected)",
-            "9.6 M, 3.1 M",
             "9.6 M, 3.1 M (Projected)",
-            "0.18 M, 0.63 M",
             "0.18 M, 0.63 M (Projected)"
         ]
     },
     "max_velocity_star1": {
         "variations": [
-            "21.3 M, 3.1 M",
             "21.3 M, 3.1 M (Projected)",
-            "9.6 M, 3.1 M",
             "9.6 M, 3.1 M (Projected)",
-            "0.18 M, 0.63 M",
             "0.18 M, 0.63 M (Projected)",
-            "9.6 M, 3.1 M, Proper Motion",
             "9.6 M, 3.1 M, Proper Motion (Projected)",
-            "9.6 M, 3.1 M, Proper Motion2",
             "9.6 M, 3.1 M, Proper Motion2 (Projected)",
-            "9.6 M, 3.1 M, yrAUMsun",
             "9.6 M, 3.1 M, yrAUMsun (Projected)",
-            "9.6 M, 3.1 M, cgs",
             "9.6 M, 3.1 M, cgs (Projected)"
         ]
     },
     "max_velocity_star2": {
         "variations": [
-            "21.3 M, 3.1 M",
             "21.3 M, 3.1 M (Projected)",
-            "9.6 M, 3.1 M",
             "9.6 M, 3.1 M (Projected)",
-            "0.18 M, 0.63 M",
             "0.18 M, 0.63 M (Projected)"
         ]
     },
     "min_acceleration_star1": {
         "variations": [
-            "21.3 M, 3.1 M",
             "21.3 M, 3.1 M (Projected)",
-            "9.6 M, 3.1 M",
             "9.6 M, 3.1 M (Projected)",
-            "0.18 M, 0.63 M",
             "0.18 M, 0.63 M (Projected)"
         ]
     },
     "min_acceleration_star2": {
         "variations": [
-            "21.3 M, 3.1 M",
             "21.3 M, 3.1 M (Projected)",
-            "9.6 M, 3.1 M",
             "9.6 M, 3.1 M (Projected)",
-            "0.18 M, 0.63 M",
             "0.18 M, 0.63 M (Projected)"
         ]
     },
     "min_angular_velocity_star1": {
         "variations": [
-            "21.3 M, 3.1 M",
             "21.3 M, 3.1 M (Projected)",
-            "9.6 M, 3.1 M",
             "9.6 M, 3.1 M (Projected)",
-            "0.18 M, 0.63 M",
             "0.18 M, 0.63 M (Projected)"
         ]
     },
     "min_angular_velocity_star2": {
         "variations": [
-            "21.3 M, 3.1 M",
             "21.3 M, 3.1 M (Projected)",
-            "9.6 M, 3.1 M",
             "9.6 M, 3.1 M (Projected)",
-            "0.18 M, 0.63 M",
             "0.18 M, 0.63 M (Projected)"
         ]
     },
     "min_momentum_star1": {
         "variations": [
-            "21.3 M, 3.1 M",
             "21.3 M, 3.1 M (Projected)",
-            "9.6 M, 3.1 M",
             "9.6 M, 3.1 M (Projected)",
-            "0.18 M, 0.63 M",
             "0.18 M, 0.63 M (Projected)",
-            "9.6 M, 3.1 M, Proper Motion",
             "9.6 M, 3.1 M, Proper Motion (Projected)",
-            "9.6 M, 3.1 M, Proper Motion2",
             "9.6 M, 3.1 M, Proper Motion2 (Projected)",
-            "9.6 M, 3.1 M, yrAUMsun",
             "9.6 M, 3.1 M, yrAUMsun (Projected)",
-            "9.6 M, 3.1 M, cgs",
             "9.6 M, 3.1 M, cgs (Projected)"
         ]
     },
     "min_momentum_star2": {
         "variations": [
-            "21.3 M, 3.1 M",
             "21.3 M, 3.1 M (Projected)",
-            "9.6 M, 3.1 M",
             "9.6 M, 3.1 M (Projected)",
-            "0.18 M, 0.63 M",
             "0.18 M, 0.63 M (Projected)"
         ]
     },
     "min_velocity_star1": {
         "variations": [
-            "21.3 M, 3.1 M",
             "21.3 M, 3.1 M (Projected)",
-            "9.6 M, 3.1 M",
             "9.6 M, 3.1 M (Projected)",
-            "0.18 M, 0.63 M",
             "0.18 M, 0.63 M (Projected)"
         ]
     },
     "min_velocity_star2": {
         "variations": [
-            "21.3 M, 3.1 M",
             "21.3 M, 3.1 M (Projected)",
-            "9.6 M, 3.1 M",
             "9.6 M, 3.1 M (Projected)",
-            "0.18 M, 0.63 M",
             "0.18 M, 0.63 M (Projected)"
         ]
     },
     "multiply_mass_period": {
         "variations": [
-            "21.3 M, 3.1 M",
             "21.3 M, 3.1 M (Projected)",
-            "9.6 M, 3.1 M",
             "9.6 M, 3.1 M (Projected)",
-            "0.18 M, 0.63 M",
             "0.18 M, 0.63 M (Projected)"
         ]
     },
     "orbital_area_star1": {
         "variations": [
-            "21.3 M, 3.1 M",
             "21.3 M, 3.1 M (Projected)",
-            "9.6 M, 3.1 M",
             "9.6 M, 3.1 M (Projected)",
-            "0.18 M, 0.63 M",
             "0.18 M, 0.63 M (Projected)"
         ]
     },
     "orbital_area_star2": {
         "variations": [
-            "21.3 M, 3.1 M",
             "21.3 M, 3.1 M (Projected)",
-            "9.6 M, 3.1 M",
             "9.6 M, 3.1 M (Projected)",
-            "0.18 M, 0.63 M",
             "0.18 M, 0.63 M (Projected)"
         ]
     },
     "periastron": {
         "variations": [
-            "21.3 M, 3.1 M",
             "21.3 M, 3.1 M (Projected)",
-            "9.6 M, 3.1 M",
             "9.6 M, 3.1 M (Projected)",
-            "0.18 M, 0.63 M",
             "0.18 M, 0.63 M (Projected)",
-            "3.1 M, 0.18 M, Elliptical, Single Orbit",
             "3.1 M, 0.18 M, Elliptical, Single Orbit (Projected)"
         ]
     },
     "period": {
         "variations": [
-            "21.3 M, 3.1 M",
             "21.3 M, 3.1 M (Projected)",
-            "9.6 M, 3.1 M",
             "9.6 M, 3.1 M (Projected)",
-            "0.18 M, 0.63 M",
             "0.18 M, 0.63 M (Projected)",
-            "9.6 M, 3.1 M, Proper Motion",
             "9.6 M, 3.1 M, Proper Motion (Projected)",
-            "9.6 M, 3.1 M, Proper Motion2",
             "9.6 M, 3.1 M, Proper Motion2 (Projected)",
-            "9.6 M, 3.1 M, yrAUMsun",
             "9.6 M, 3.1 M, yrAUMsun (Projected)",
-            "9.6 M, 3.1 M, cgs",
             "9.6 M, 3.1 M, cgs (Projected)"
         ]
     },
     "reduced_mass": {
         "variations": [
-            "21.3 M, 3.1 M",
             "21.3 M, 3.1 M (Projected)",
-            "9.6 M, 3.1 M",
             "9.6 M, 3.1 M (Projected)",
-            "0.18 M, 0.63 M",
             "0.18 M, 0.63 M (Projected)",
-            "9.6 M, 3.1 M, Proper Motion",
             "9.6 M, 3.1 M, Proper Motion (Projected)",
-            "9.6 M, 3.1 M, Proper Motion2",
             "9.6 M, 3.1 M, Proper Motion2 (Projected)",
-            "9.6 M, 3.1 M, yrAUMsun",
             "9.6 M, 3.1 M, yrAUMsun (Projected)",
-            "9.6 M, 3.1 M, cgs",
             "9.6 M, 3.1 M, cgs (Projected)"
         ]
     },
     "semi_major_axis": {
         "variations": [
-            "21.3 M, 3.1 M",
             "21.3 M, 3.1 M (Projected)",
-            "9.6 M, 3.1 M",
             "9.6 M, 3.1 M (Projected)",
-            "0.18 M, 0.63 M",
             "0.18 M, 0.63 M (Projected)",
-            "9.6 M, 3.1 M, Proper Motion",
             "9.6 M, 3.1 M, Proper Motion (Projected)",
-            "9.6 M, 3.1 M, Proper Motion2",
             "9.6 M, 3.1 M, Proper Motion2 (Projected)",
-            "9.6 M, 3.1 M, yrAUMsun",
             "9.6 M, 3.1 M, yrAUMsun (Projected)",
-            "9.6 M, 3.1 M, cgs",
             "9.6 M, 3.1 M, cgs (Projected)"
         ]
     },
     "semi_major_axis_star1": {
         "variations": [
-            "21.3 M, 3.1 M",
             "21.3 M, 3.1 M (Projected)",
-            "9.6 M, 3.1 M",
             "9.6 M, 3.1 M (Projected)",
-            "0.18 M, 0.63 M",
             "0.18 M, 0.63 M (Projected)",
-            "9.6 M, 3.1 M, Proper Motion",
             "9.6 M, 3.1 M, Proper Motion (Projected)",
-            "9.6 M, 3.1 M, Proper Motion2",
             "9.6 M, 3.1 M, Proper Motion2 (Projected)",
-            "9.6 M, 3.1 M, yrAUMsun",
             "9.6 M, 3.1 M, yrAUMsun (Projected)",
-            "9.6 M, 3.1 M, cgs",
             "9.6 M, 3.1 M, cgs (Projected)"
         ]
     },
     "semi_major_axis_star2": {
         "variations": [
-            "21.3 M, 3.1 M",
             "21.3 M, 3.1 M (Projected)",
-            "9.6 M, 3.1 M",
             "9.6 M, 3.1 M (Projected)",
-            "0.18 M, 0.63 M",
             "0.18 M, 0.63 M (Projected)"
         ]
     },
     "semi_minor_axis": {
         "variations": [
-            "21.3 M, 3.1 M",
             "21.3 M, 3.1 M (Projected)",
-            "9.6 M, 3.1 M",
             "9.6 M, 3.1 M (Projected)",
-            "0.18 M, 0.63 M",
             "0.18 M, 0.63 M (Projected)",
-            "9.6 M, 3.1 M, Proper Motion",
             "9.6 M, 3.1 M, Proper Motion (Projected)",
-            "9.6 M, 3.1 M, Proper Motion2",
             "9.6 M, 3.1 M, Proper Motion2 (Projected)"
         ]
     },
     "semi_minor_axis_star1": {
         "variations": [
-            "21.3 M, 3.1 M",
             "21.3 M, 3.1 M (Projected)",
-            "9.6 M, 3.1 M",
             "9.6 M, 3.1 M (Projected)",
-            "0.18 M, 0.63 M",
             "0.18 M, 0.63 M (Projected)"
         ]
     },
     "semi_minor_axis_star2": {
         "variations": [
-            "21.3 M, 3.1 M",
             "21.3 M, 3.1 M (Projected)",
-            "9.6 M, 3.1 M",
             "9.6 M, 3.1 M (Projected)",
-            "0.18 M, 0.63 M",
             "0.18 M, 0.63 M (Projected)"
         ]
     },
     "specific_angular_momentum": {
         "variations": [
-            "21.3 M, 3.1 M",
             "21.3 M, 3.1 M (Projected)",
-            "9.6 M, 3.1 M",
             "9.6 M, 3.1 M (Projected)",
-            "0.18 M, 0.63 M",
             "0.18 M, 0.63 M (Projected)"
         ]
     },
     "K+U": {
         "variations": [
-            "10.1 M, 5.6 M, Unbound",
             "10.1 M, 5.6 M, Unbound (Projected)",
-            "21.3 M, 3.1 M",
             "21.3 M, 3.1 M (Projected)",
-            "9.6 M, 3.1 M",
             "9.6 M, 3.1 M (Projected)",
-            "0.18 M, 0.63 M",
             "0.18 M, 0.63 M (Projected)",
-            "9.6 M, 3.1 M, Proper Motion",
             "9.6 M, 3.1 M, Proper Motion (Projected)",
-            "9.6 M, 3.1 M, Proper Motion2",
             "9.6 M, 3.1 M, Proper Motion2 (Projected)"
         ]
     },
     "total_mass": {
         "variations": [
-            "21.3 M, 3.1 M",
             "21.3 M, 3.1 M (Projected)",
-            "9.6 M, 3.1 M",
             "9.6 M, 3.1 M (Projected)",
-            "0.18 M, 0.63 M",
             "0.18 M, 0.63 M (Projected)"
         ]
     },
     "mass_ratio": {
         "variations": [
-            "21.3 M, 3.1 M",
             "21.3 M, 3.1 M (Projected)",
-            "9.6 M, 3.1 M",
             "9.6 M, 3.1 M (Projected)",
-            "0.18 M, 0.63 M",
             "0.18 M, 0.63 M (Projected)"
         ]
     },
     "virial_theorem": {
         "variations": [
-            "21.3 M, 3.1 M",
             "21.3 M, 3.1 M (Projected)",
-            "9.6 M, 3.1 M",
             "9.6 M, 3.1 M (Projected)",
-            "0.18 M, 0.63 M",
             "0.18 M, 0.63 M (Projected)",
-            "7.7 M, 4.9 M, Drag tau = 1.7e9",
             "7.7 M, 4.9 M, Drag tau = 1.7e9 (Projected)",
-            "7.7 M, 4.9 M, Drag tau = 8.3e8",
             "7.7 M, 4.9 M, Drag tau = 8.3e8 (Projected)",
-            "7.7 M, 4.9 M, Drag tau = 8.3e8 Proper Motion",
             "7.7 M, 4.9 M, Drag tau = 8.3e8 Proper Motion (Projected)"
         ]
     },
     "travel_time_orbital_20per_path": {
         "variations": [
-            "21.3 M, 3.1 M",
             "21.3 M, 3.1 M (Projected)",
-            "9.6 M, 3.1 M",
             "9.6 M, 3.1 M (Projected)",
-            "0.18 M, 0.63 M",
             "0.18 M, 0.63 M (Projected)"
         ]
     },
     "travel_time_orbital_70per_path": {
         "variations": [
-            "21.3 M, 3.1 M",
             "21.3 M, 3.1 M (Projected)",
-            "9.6 M, 3.1 M",
             "9.6 M, 3.1 M (Projected)",
-            "0.18 M, 0.63 M",
             "0.18 M, 0.63 M (Projected)"
         ]
     },
     "is_bound": {
         "variations": [
-            "21.3 M, 3.1 M",
             "21.3 M, 3.1 M (Projected)",
-            "9.6 M, 3.1 M",
             "9.6 M, 3.1 M (Projected)",
-            "0.18 M, 0.63 M",
             "0.18 M, 0.63 M (Projected)",
-            "9.6 M, 3.1 M, Proper Motion",
             "9.6 M, 3.1 M, Proper Motion (Projected)",
-            "9.6 M, 3.1 M, Proper Motion2",
             "9.6 M, 3.1 M, Proper Motion2 (Projected)",
-            "9.6 M, 3.1 M, yrAUMsun",
             "9.6 M, 3.1 M, yrAUMsun (Projected)",
-            "9.6 M, 3.1 M, cgs",
             "9.6 M, 3.1 M, cgs (Projected)",
-            "10.1 M, 5.6 M, Unbound",
             "10.1 M, 5.6 M, Unbound (Projected)"
         ]
     },
     "mass_star1": {
         "variations": [
-            "21.3 M, 3.1 M",
             "21.3 M, 3.1 M (Projected)",
-            "9.6 M, 3.1 M",
             "9.6 M, 3.1 M (Projected)",
-            "0.18 M, 0.63 M",
             "0.18 M, 0.63 M (Projected)",
-            "9.6 M, 3.1 M, Proper Motion",
             "9.6 M, 3.1 M, Proper Motion (Projected)",
-            "9.6 M, 3.1 M, Proper Motion2",
             "9.6 M, 3.1 M, Proper Motion2 (Projected)",
-            "9.6 M, 3.1 M, yrAUMsun",
             "9.6 M, 3.1 M, yrAUMsun (Projected)",
-            "9.6 M, 3.1 M, cgs",
             "9.6 M, 3.1 M, cgs (Projected)"
         ]
     },
     "mass_star2": {
         "variations": [
-            "21.3 M, 3.1 M",
             "21.3 M, 3.1 M (Projected)",
-            "9.6 M, 3.1 M",
             "9.6 M, 3.1 M (Projected)",
-            "0.18 M, 0.63 M",
             "0.18 M, 0.63 M (Projected)",
-            "9.6 M, 3.1 M, Proper Motion",
             "9.6 M, 3.1 M, Proper Motion (Projected)",
-            "9.6 M, 3.1 M, Proper Motion2",
             "9.6 M, 3.1 M, Proper Motion2 (Projected)"
         ]
     },
