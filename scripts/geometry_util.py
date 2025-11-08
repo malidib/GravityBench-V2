@@ -10,6 +10,10 @@ from tqdm import tqdm
 import os
 import json
 
+
+PROJECTED_SIMS_DIR = os.path.join("scenarios", "projected_sims")
+os.makedirs(PROJECTED_SIMS_DIR, exist_ok=True)
+
 # Calculate luminosity of the stars, under the assumption that the stars are on the main-sequence. Therefore, it is best to keep the 
 # binary star masses between 2 to 55 solar masses.
 def luminosity_generator(file_name:str, save=False, main_sequence=True):
@@ -54,7 +58,7 @@ def luminosity_generator(file_name:str, save=False, main_sequence=True):
     if save:
         df['star1_lum'] = np.full(len(df), Lstar1)
         df['star2_lum'] = np.full(len(df), Lstar1)
-        df.to_csv(f"scenarios/projected_sims/{file_name}.csv", index=False)
+        df.to_csv(os.path.join(PROJECTED_SIMS_DIR, f"{file_name}.csv"), index=False)
         return Lstar1, Lstar2
     else:
         return Lstar1, Lstar2
@@ -79,7 +83,7 @@ def calculate_flux(file_name:str, save=False):
     """
 
     # Load the simulation data
-    df = pd.read_csv(f"scenarios/projected_sims/{file_name}.csv")
+    df = pd.read_csv(os.path.join(PROJECTED_SIMS_DIR, f"{file_name}.csv"))
 
     # Calculate luminosity of each star
     Lstar1, Lstar2 = luminosity_generator(file_name=file_name, save=False)
@@ -91,7 +95,7 @@ def calculate_flux(file_name:str, save=False):
     if save:
         df['star1_flux'] = Fstar1
         df['star2_flux'] = Fstar2
-        df.to_csv(f"scenarios/projected_sims/{file_name}.csv", index=False)
+        df.to_csv(os.path.join(PROJECTED_SIMS_DIR, f"{file_name}.csv"), index=False)
         return Fstar1, Fstar2
     else:
         return Fstar1, Fstar2
@@ -133,7 +137,7 @@ def absolute_magnitude(file_name:str, save=False):
     if save:
         df['star1_abs_mag'] = np.full(len(df), abs_mag_star1)
         df['star2_abs_mag'] = np.full(len(df), abs_mag_star2)
-        df.to_csv(f"scenarios/projected_sims/{file_name}.csv", index=False)
+        df.to_csv(os.path.join(PROJECTED_SIMS_DIR, f"{file_name}.csv"), index=False)
         return abs_mag_star1, abs_mag_star2
     else:
         return abs_mag_star1, abs_mag_star2
@@ -180,7 +184,7 @@ def apparent_magnitude(file_name:str, save=False):
     if save:
         df['star1_app_mag'] = app_mag_star1
         df['star2_app_mag'] = app_mag_star2
-        df.to_csv(f"scenarios/projected_sims/{file_name}.csv", index=False)
+        df.to_csv(os.path.join(PROJECTED_SIMS_DIR, f"{file_name}.csv"), index=False)
         return app_mag_star1, app_mag_star2
     else:
         return app_mag_star1, app_mag_star2
@@ -211,12 +215,13 @@ def infer_position(file_name:str, verification=False, save=False):
     """
 
     # Check valid file
-    if not os.path.exists(f"scenarios/projected_sims/{file_name}.csv"):
+    projected_path = os.path.join(PROJECTED_SIMS_DIR, f"{file_name}.csv")
+    if not os.path.exists(projected_path):
         raise FileNotFoundError(f"Projected {file_name} file not found, please check the file name is correct, or that this file was ran with projection=True.")
 
     # Load the simulation data
     df = pd.read_csv(f"scenarios/detailed_sims/{file_name}.csv")
-    df_pro = pd.read_csv(f"scenarios/projected_sims/{file_name}.csv")
+    df_pro = pd.read_csv(projected_path)
 
     dec, right_ascension = df_pro['declination'].iloc[0], df_pro['right_ascension'].iloc[0]
 
@@ -327,7 +332,7 @@ def infer_position(file_name:str, verification=False, save=False):
             assert max_diff <= threshold_value, f"Difference between points found to be more than {threshold_value}, at {i} row."
     
     if save:
-        result_df.to_csv(f"scenarios/projected_sims/{file_name}_unprojected.csv", index=False)
+        result_df.to_csv(os.path.join(PROJECTED_SIMS_DIR, f"{file_name}_unprojected.csv"), index=False)
         print(f"{max_diff:.2g}")
 
     return result_df

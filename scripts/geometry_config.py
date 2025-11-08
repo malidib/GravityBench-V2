@@ -11,6 +11,10 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import scripts.scenarios_config as scenarios_config
 
 
+PROJECTED_SIMS_DIR = os.path.join("scenarios", "projected_sims")
+os.makedirs(PROJECTED_SIMS_DIR, exist_ok=True)
+
+
 def geometry(file_name:str, random=False, translation=False, verification=False):
     """
     If random, randomly transform the geometry of the binary system from a orientation to an another random orientation. It will account for
@@ -667,7 +671,7 @@ def projection(obs_df, file_name: str, save=False):
     if save == True:
         obs_df['right_ascension'] = right_ascension
         obs_df['declination'] = dec
-        csv_file_sims = f"scenarios/projected_sims/{file_name}.csv"
+        csv_file_sims = os.path.join(PROJECTED_SIMS_DIR, f"{file_name}.csv")
         with open(csv_file_sims, mode='w', newline='') as file_sims:
             obs_df[['time', 'star1_x', 'star1_y', 'star1_z', 'star2_x', 'star2_y', 'star2_z', 'right_ascension', 'declination']].to_csv(file_sims, index=False)
 
@@ -751,11 +755,11 @@ def pre_projection_checking(df, file_name:str, tol=None, align_tol=1e-10):
 def reset():
     folder_path_detailed = "scenarios/detailed_sims"
     file_names = os.listdir(folder_path_detailed) # Same name for both sims and detailed_sims
-    projected_file_names = os.listdir("scenarios/projected_sims") # Projected sims files
+    projected_file_names = os.listdir(PROJECTED_SIMS_DIR) # Projected sims files
 
     # Remove all projected_sims csv files
     for file in projected_file_names:
-        file_path_projected_sims = f"scenarios/projected_sims/{file}"
+        file_path_projected_sims = os.path.join(PROJECTED_SIMS_DIR, file)
         if os.path.exists(file_path_projected_sims):
             os.remove(file_path_projected_sims)
 
@@ -831,7 +835,7 @@ def sky_projection(df, file_name: str, save=False):
 
     # If want to save to a new file, write to a new folder 
     if save == True:
-        csv_file_sims = f"scenarios/projected_sims/{file_name}.csv"
+        csv_file_sims = os.path.join(PROJECTED_SIMS_DIR, f"{file_name}.csv")
         with open(csv_file_sims, mode='w', newline='') as file_sims:
             df[['time', 'star1_x', 'star1_y', 'star1_z', 'star2_x', 'star2_y', 'star2_z']].to_csv(file_sims, index=False)
 
