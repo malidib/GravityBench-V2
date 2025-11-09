@@ -17,10 +17,12 @@ class RowWiseResults:
 class Binary():
     """Main class handling binary star system simulation and observation management"""
     
-    def __init__(self, star1_mass, star2_mass, star1_pos, star2_pos, star1_momentum, 
-                 star2_momentum, maxtime, max_observations, max_observations_per_request, 
-                 filename, prompt, final_answer_units, drag_tau=None, 
-                 mod_gravity_exponent=None, units=('m', 's', 'kg'), projection=False, skip_simulation=False):
+    def __init__(self, star1_mass, star2_mass, star1_pos, star2_pos, star1_momentum,
+                 star2_momentum, maxtime, max_observations, max_observations_per_request,
+                 filename, prompt, final_answer_units, drag_tau=None,
+                 mod_gravity_exponent=None, units=('m', 's', 'kg'), projection=False,
+                 skip_simulation=False, enable_noise=False, noise_type=None,
+                 noise_level=0.0, noise_seed=None):
         """
         Initialize binary system with physical parameters and simulation settings
         Args:
@@ -49,6 +51,13 @@ class Binary():
         self.mod_gravity_exponent = mod_gravity_exponent  # Gravity law modification
         self.units = units  # Unit system tuple
         self.projection = projection  # Projection onto the yz plane
+        self.enable_noise = enable_noise
+        self.noise_type = noise_type
+        self.noise_level = noise_level
+        self.noise_seed = noise_seed
+
+        if self.noise_seed is not None:
+            np.random.seed(self.noise_seed)
 
         # Initialize REBOUND simulation
         self.sim = rebound.Simulation()
@@ -67,7 +76,7 @@ class Binary():
 
         # Run simulation unless loading existing data
         if not skip_simulation:
-            self.simulate(drag_tau=drag_tau, mod_gravity_exponent=mod_gravity_exponent, 
+            self.simulate(drag_tau=drag_tau, mod_gravity_exponent=mod_gravity_exponent,
                         units=units)
 
         # Load generated simulation data
@@ -173,6 +182,22 @@ Important reminder: Repeated tool access is enabled until you have found the ans
         self.convert_back_to_SI()
         # Configure full prompt for table access mode
         self.full_table_prompt = self.prompt + f"""\n{self.full_table_tools_and_data_prompt}""" + self.end_prompt
+
+    def _generate_noise(self, time):
+        """Generate positional noise for both stars."""
+        if not self.enable_noise or self.noise_level == 0:
+            return np.zeros(6)
+
+        if self.noise_type == 'gaussian':
+            return np.random.normal(0, self.noise_level, size=6)
+        if self.noise_type == 'linear_growth':
+            return np.random.normal(0, self.noise_level * time, size=6)
+        if self.noise_type == 'exponential_growth':
+            return np.random.normal(0, self.noise_level * np.exp(time), size=6)
+        if self.noise_type == 'power_law':
+            return np.random.normal(0, self.noise_level * time**1.05, size=6)
+
+        raise ValueError(f"Unknown noise type: {self.noise_type}")
 
     def set_row_wise_prompt(self):
         """Configure prompt for row-wise observation mode"""
@@ -289,8 +314,16 @@ When using `Observe`:
                 p1 = self.sim.particles[0]
                 p2 = self.sim.particles[1]
 
+                if self.enable_noise:
+                    noise = self._generate_noise(time_passed)
+                    p1x, p1y, p1z = p1.x + noise[0], p1.y + noise[1], p1.z + noise[2]
+                    p2x, p2y, p2z = p2.x + noise[3], p2.y + noise[4], p2.z + noise[5]
+                else:
+                    p1x, p1y, p1z = p1.x, p1.y, p1.z
+                    p2x, p2y, p2z = p2.x, p2.y, p2.z
+
                 # Write basic position data
-                data_positions = [time_passed, p1.x, p1.y, p1.z, p2.x, p2.y, p2.z]
+                data_positions = [time_passed, p1x, p1y, p1z, p2x, p2y, p2z]
                 writer_positions.writerow(data_positions)
 
                 # Calculate detailed orbital parameters
@@ -303,7 +336,7 @@ When using `Observe`:
                 # Write detailed simulation data
                 data_detailed = [
                     time_passed,
-                    p1.x, p1.y, p1.z, p2.x, p2.y, p2.z,
+                    p1x, p1y, p1z, p2x, p2y, p2z,
                     p1.vx, p1.vy, p1.vz, p2.vx, p2.vy, p2.vz,
                     p1.m, p2.m, separation, force, star1_accel, star2_accel,
                     orbit.h, orbit.P, orbit.n, orbit.a, orbit.e,
