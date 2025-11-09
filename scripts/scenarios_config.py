@@ -13,6 +13,7 @@ if project_root not in sys.path:
 
 import numpy as np
 from generalscenarios.Binary import Binary
+from noise_config import ENABLE_NOISE, NOISE_TYPE, NOISE_LEVEL, NOISE_SEED
 import importlib
 import json
 import rebound
@@ -38,7 +39,8 @@ class BinaryScenario:
     def __init__(self, variation_name, star1_mass, star2_mass, star1_pos, star2_pos, 
                  maxtime=None, num_orbits=10, ellipticity=0.0, proper_motion_direction=None, 
                  proper_motion_magnitude=0.0, drag_tau=None, mod_gravity_exponent=None, 
-                 units=('m', 's', 'kg'), projection=False):
+                 units=('m', 's', 'kg'), projection=False,
+                 enable_noise=None, noise_type=None, noise_level=None, noise_seed=None):
         """Initialize binary system with physical parameters and dynamic properties."""
         
         # Basic system parameters
@@ -58,6 +60,12 @@ class BinaryScenario:
         
         # Unit system handling (SI, astronomical units, or CGS)
         self.units = units
+
+        # Noise parameters (default to global configuration when not provided)
+        self.enable_noise = ENABLE_NOISE if enable_noise is None else enable_noise
+        self.noise_type = NOISE_TYPE if noise_type is None else noise_type
+        self.noise_level = NOISE_LEVEL if noise_level is None else noise_level
+        self.noise_seed = NOISE_SEED if noise_seed is None else noise_seed
         
         # Observation parameters (defaults, can be overridden later)
         self.projection = projection # Whether to project onto the xy plane
@@ -98,11 +106,15 @@ class BinaryScenario:
             self.star1_pos, self.star2_pos,
             self.star1_momentum, self.star2_momentum,
             self.maxtime, self.max_observations, self.max_observations_per_request,
-            self.filename, prompt, final_answer_units, 
-            drag_tau=self.drag_tau, 
+            self.filename, prompt, final_answer_units,
+            drag_tau=self.drag_tau,
             mod_gravity_exponent=self.mod_gravity_exponent,
             units=self.units, projection=self.projection,
-            skip_simulation=skip_simulation
+            skip_simulation=skip_simulation,
+            enable_noise=self.enable_noise,
+            noise_type=self.noise_type,
+            noise_level=self.noise_level,
+            noise_seed=self.noise_seed
         )
     
     def calculate_orbital_period(self):
